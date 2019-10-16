@@ -1,0 +1,54 @@
+load ../../systems/imp.maude
+
+set show advisories off .
+set print attribute on .
+
+load ../../rltool.maude
+
+(select IMP-SEMANTICS  .)
+(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(def-term-set (< done | E:Env >) | true .)
+(declare-vars (X:Nat) U (I:Nat) U (S:Nat) U (I':Nat) U (S':Nat) .)
+
+(add-goal loop : (< while (x, <: x) {x, = x, +: 1 ; x,, = x,, +: x, ;} ~> done
+                    | x |-> X  *  x, |-> I * x,, |-> S >) | (S * (1 + 1)) = (I * (I + 1)) =>
+                 (< done
+		    | x |-> X * x, |-> I' * x,, |-> S' >) | (I') = (X) /\ (S' * (1 + 1)) = (X * (X + 1)) .) 
+(start-proof .)
+
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(case 224 on &20:Nat by (0) U (N:NzNat) .)
+(auto .)
+(auto .)

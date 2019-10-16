@@ -1,0 +1,55 @@
+load ../../systems/imp.maude
+
+fmod FIB is
+  pr FVP-NAT . 
+
+  op fib : Nat -> Nat . 
+
+  var N : Nat . 
+
+  eq fib(0) = 0 .
+  eq fib(1) = 1 .
+  eq fib(N + 1 + 1) = fib(N + 1) + fib(N) . 
+endfm
+
+mod FIB+IMP-SEMANTICS is
+  pr FIB . 
+  pr IMP-SEMANTICS . 
+endm
+
+set show advisories off .
+set print attribute on .
+
+load ../../rltool.maude
+
+(select FIB+IMP-SEMANTICS  .)
+(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(def-term-set (< done | E:Env >) | true .)
+(declare-vars (X:Nat) U (I:Nat) U (A:NzNat) U (B:Nat) U (C:NzNat) U (A':NzNat) U (B':Nat) U (I':Nat) U (C':NzNat) .)
+
+--- x     = x
+--- i     = i
+--- a     = f1
+--- b     = f2
+--- c     = f
+
+(add-goal loop : (< while (i <: x) {i = i +: 1 ; b = a ; a = c ; c = a +: b ; } ~> done
+                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (A + B) = (C) /\ ((C) = (0) \/ (C) = (fib(I))) =>
+                 (< done
+		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (I') = (X) /\ (C') = (fib(X)) .) 
+(start-proof .)
+
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)

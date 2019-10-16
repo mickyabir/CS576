@@ -1,0 +1,21 @@
+load ../../systems/imp.maude
+
+set show advisories off .
+set print attribute on .
+
+load ../../rltool.maude
+
+(select IMP-SEMANTICS  .)
+(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(def-term-set (< done | E:Env >) | true .)
+(declare-vars (X:Nat) U (Y:Nat) U (S:Nat) U (X':Nat) U (S':Nat) U (MAX:Nat) .)
+
+(add-goal loop : (< while (x <: x,,,) {x = x +: 1 ; x,, = x,, +: x, ;} ~> done
+                    | x |-> X  *  x, |-> Y * x,, |-> S  * x,,, |-> MAX >) | ( INSERT LOOP INVARIANT HERE ) =>
+                 (< done
+		    | x |-> X' *  x, |-> Y * x,, |-> S' * x,,, |-> MAX >) | INSERT MULTIPLICATION CORRECTNESS POST-CONDITION HERE .) 
+(start-proof .)
+
+--- PROOF SCRIPT FOLLOWS HERE

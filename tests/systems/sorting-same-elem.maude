@@ -1,0 +1,20 @@
+load ../../systems/sorting.maude
+load ../../rltool.maude
+
+set show advisories off .
+
+(select SORTING-stop .)
+
+(use tool impsimp for validity on SORTING-DATA-PREDS with FOFORMSIMPLIFY-IMPL .)
+
+(declare-vars (S:MSet) U (L:List) U (L':List) .)
+
+(def-term-set (< L,S >) | true .)
+
+(add-goal same-elem : ([L,S]) | (list2mset(L)) = (S) => (< L',S >) | (list2mset(L')) = (S) .)
+
+(start-proof .)
+(auto .)
+(auto .)
+quit .
+
