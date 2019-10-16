@@ -27,7 +27,7 @@ load ../../rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (I:Nat) U (A:NzNat) U (B:Nat) U (C:NzNat) U (A':NzNat) U (B':Nat) U (I':Nat) U (C':NzNat) .)
+(declare-vars (X:Nat) U (I:Nat) U (A:NzNat) U (B:Nat) U (C:Nat) U (A':NzNat) U (B':Nat) U (I':Nat) U (C':Nat) .)
 
 --- x     = x
 --- i     = i
@@ -35,10 +35,10 @@ load ../../rltool.maude
 --- b     = f2
 --- c     = f
 
-(add-goal loop : (< while (i <: x) {i = i +: 1 ; b = a ; a = c ; c = a +: b ; } ~> done
-                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (A + B) = (C) /\ ((C) = (0) \/ (C) = (fib(I))) =>
+(add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; b = a ; a = c ; c = a +: b ; } ~> done
+                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (fib(I)) =>
                  (< done
-		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (I') = (X) /\ (C') = (fib(X)) .) 
+		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (C') = (fib(I')) .) 
 (start-proof .)
 
 ---(auto .)
