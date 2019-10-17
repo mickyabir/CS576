@@ -1,55 +1,55 @@
-load ../../systems/imp.maude
+load ../imp.maude
 
 fmod FIB is
-  pr FVP-NAT . 
+  pr FVP-NAT .
 
-  op fib : Nat -> Nat . 
+  op fib : Nat -> Nat .
 
-  var N : Nat . 
+  var N : Nat .
 
   eq fib(0) = 0 .
   eq fib(1) = 1 .
-  eq fib(N + 1 + 1) = fib(N + 1) + fib(N) . 
+  eq fib(N + 1 + 1) = fib(N + 1) + fib(N) .
 endfm
 
 mod FIB+IMP-SEMANTICS is
-  pr FIB . 
-  pr IMP-SEMANTICS . 
+  pr FIB .
+  pr IMP-SEMANTICS .
 endm
 
 set show advisories off .
 set print attribute on .
 
-load ../../rltool.maude
+load ../ext/rltool/rltool.maude
 
 (select FIB+IMP-SEMANTICS  .)
 (use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (I:Nat) U (A:Nat) U (B:Nat) U (F:Nat) U (A':Nat) U (B':Nat) U (I':Nat) U (F':Nat) .)
+(declare-vars (X:Nat) U (I:Nat) U (A:NzNat) U (B:Nat) U (C:Nat) U (A':NzNat) U (B':Nat) U (I':Nat) U (C':Nat) .)
 
 --- x     = x
---- x,    = i
---- x,,   = f1
---- x,,,  = f2
---- x,,,, = f
+--- i     = i
+--- a     = f1
+--- b     = f2
+--- c     = f
 
-(add-goal loop : (< while (x, <: x) {x, = x, +: 1 ; x,,, = x,, ; x,, = x,,,, ; x,,,, = x,, +: x,,, ; } ~> done
-                    | x |-> X  *  x, |-> I * x,, |-> A * x,,, |-> B * x,,,, |-> F >) | (A + B) = (F) =>
+(add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; b = a ; a = c ; c = a +: b ; } ~> done
+                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (fib(I)) =>
                  (< done
-		    | x |-> X * x, |-> I' * x,, |-> A' * x,,, |-> B' * x,,,, |-> F' >) | (I') = (X) /\ (F') = (fib(X)) .) 
+		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (C') = (fib(I')) .)
 (start-proof .)
 
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)

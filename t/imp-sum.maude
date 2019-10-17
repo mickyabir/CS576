@@ -52,5 +52,3 @@ load ../ext/rltool/rltool.maude
 (case 224 on &20:Nat by (0) U (N:NzNat) .)
 (auto .)
 (auto .)
-
-(quit .)
