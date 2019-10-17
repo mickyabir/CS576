@@ -1,4 +1,4 @@
-load ../ext/rltool/systems/imp.maude
+load ../imp.maude
 
 set show advisories off .
 set print attribute on .
