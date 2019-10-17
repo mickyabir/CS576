@@ -1,3 +1,0 @@
-load rltool-lib.maude
-
-loop rltl-init .
