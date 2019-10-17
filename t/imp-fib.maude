@@ -3,7 +3,7 @@ load ../imp.maude
 fmod FIB is
   pr FVP-NAT .
 
-  op fib : Nat -> Nat .
+  op fib : Nat -> Nat [metadata "60"] .
 
   var N : Nat .
 
@@ -11,6 +11,11 @@ fmod FIB is
   eq fib(1) = 1 .
   eq fib(N + 1 + 1) = fib(N + 1) + fib(N) .
 endfm
+
+mod FIB+IMP-SYNTAX+MUL is
+  pr FIB .
+  pr IMP-SYNTAX+MUL .
+endm
 
 mod FIB+IMP-SEMANTICS is
   pr FIB .
@@ -23,11 +28,11 @@ set print attribute on .
 load ../ext/rltool/rltool.maude
 
 (select FIB+IMP-SEMANTICS  .)
-(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool conrew for validity          on FIB+IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (I:Nat) U (A:NzNat) U (B:Nat) U (C:Nat) U (A':NzNat) U (B':Nat) U (I':Nat) U (C':Nat) .)
+(declare-vars (X:Nat) U (I:NzNat) U (A:NzNat) U (B:Nat) U (C:NzNat) U (A':NzNat) U (B':Nat) U (I':NzNat) U (C':NzNat) .)
 
 --- x     = x
 --- i     = i
@@ -35,11 +40,56 @@ load ../ext/rltool/rltool.maude
 --- b     = f2
 --- c     = f
 
-(add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; b = a ; a = c ; c = a +: b ; } ~> done
-                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (fib(I)) =>
+(add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; b = a ; a = c ; } ~> done
+                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (A + B) /\ (1 < I) = (true) /\ (fib(I)) = (A + B) /\ (fib(I)) = (C) =>
                  (< done
-		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (C') = (fib(I')) .)
+		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (C') = (fib(I')) /\ (X) = (I') .)
 (start-proof .)
+
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(subsume 73 by 72 .)
+(subsume 74 by 72 .)
+(subsume 75 by 72 .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
 
 ---(auto .)
 ---(auto .)
