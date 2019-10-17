@@ -1,0 +1,7 @@
+#!/bin/bash
+
+repo_dir="$(cd "$(dirname "$0")"; pwd)"
+
+maude_binary="$repo_dir/ext/maude-a120/maude"
+
+$maude_binary $@
