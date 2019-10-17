@@ -1,9 +1,9 @@
-load ../../systems/imp.maude
+load ../ext/rltool/systems/imp.maude
 
 set show advisories off .
 set print attribute on .
 
-load ../../rltool.maude
+load ../ext/rltool/rltool.maude
 
 (select IMP-SEMANTICS  .)
 (use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
@@ -15,7 +15,7 @@ load ../../rltool.maude
 (add-goal loop : (< while (x, <: x) {x, = x, +: 1 ; x,, = x,, +: x, ;} ~> done
                     | x |-> X  *  x, |-> I * x,, |-> S >) | (S * (1 + 1)) = (I * (I + 1)) =>
                  (< done
-		    | x |-> X * x, |-> I' * x,, |-> S' >) | (I') = (X) /\ (S' * (1 + 1)) = (X * (X + 1)) .) 
+		    | x |-> X * x, |-> I' * x,, |-> S' >) | (I') = (X) /\ (S' * (1 + 1)) = (X * (X + 1)) .)
 (start-proof .)
 
 (auto .)
@@ -52,3 +52,5 @@ load ../../rltool.maude
 (case 224 on &20:Nat by (0) U (N:NzNat) .)
 (auto .)
 (auto .)
+
+(quit .)
