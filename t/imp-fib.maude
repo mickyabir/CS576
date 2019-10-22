@@ -32,7 +32,7 @@ load ../ext/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (I:NzNat) U (A:NzNat) U (B:Nat) U (C:NzNat) U (A':NzNat) U (B':Nat) U (I':NzNat) U (C':NzNat) .)
+(declare-vars (K:Nat) U (X:Nat) U (I:NzNat) U (A:NzNat) U (B:Nat) U (C:NzNat) U (A':NzNat) U (B':Nat) U (I':NzNat) U (C':NzNat) .)
 
 --- x     = x
 --- i     = i
@@ -40,13 +40,23 @@ load ../ext/rltool/rltool.maude
 --- b     = f2
 --- c     = f
 
-(add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; b = a ; a = c ; } ~> done
-                    | x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (A + B) /\ (1 < I) = (true) /\ (fib(I)) = (A + B) /\ (fib(I)) = (C) =>
+--- i   a b c    i'  a' b' c'
+--- 0   0 1 _    1   1  0  1
+--- 1   1 0 1    2   1  1  1
+--- 2   1 1 1    3   2  1  2
+--- 3   2 1 2    4   3  2  3
+--- 4   3 2 3    5   5  3  5
+
+
+
+(add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; k = b ;  b = a ; a = c ; } ~> done
+                    | k |-> K * x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (K + B) /\ (1 < I) = (true) =>
                  (< done
 		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (C') = (fib(I')) /\ (X) = (I') .)
 (start-proof .)
 
 (auto .)
+(subsume 17 by 16 .)
 (auto .)
 (auto .)
 (auto .)
@@ -55,24 +65,14 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
-(subsume 73 by 72 .)
-(subsume 74 by 72 .)
-(subsume 75 by 72 .)
+(subsume 80 by 83 .)
+(subsume 81 by 83 .)
+(subsume 82 by 83 .)
 (auto .)
 (auto .)
 (auto .)
 (auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
+--------
 (auto .)
 (auto .)
 (auto .)
@@ -90,16 +90,21 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
-
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+quit .
