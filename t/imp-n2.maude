@@ -32,43 +32,28 @@ load ../ext/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) .)
+(declare-vars (X:Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
+
+(add-goal loop-skip : (< while(j <: x){b = b +: 1 ; j = j +: 1 ;}~> a = a +: b ; i = i +: 1 ; ~> while(i <: x){j = 0 ; b = 0 ; while(j <: x){b = b +: 1 ; j = j +: 1 ;} a = a +: b ; i = i +: 1 ;}~> done
+                    | x |-> X  *  i |-> I * j |-> J * a |-> A * b |-> B >) | (B) = (J) =>
+                 (< a = a +: b ; i = i +: 1 ; ~> while (i <: x) { j = 0 ; b = 0 ; while (j <: x) { b = b +: 1 ; j = j +: 1 ; } a = a +: b ; i = i +: 1 ; } ~> done
+                    | x |-> X  *  i |-> I * j |-> J' * a |-> A' * b |-> B' >) | (B') = (J') /\ (J') = (X) .)
 
 
+---(add-goal loop-skip : (< while(j <: x){a = a +: 1 ; j = j +: 1 ;}~> i = i +: 1 ; ~> while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
+                    ---| x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X + J) =>
+                 ---(< while (i <: x) { j = 0 ; while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
+                    ---| x |-> X  *  i |-> I * j |-> J' * a |-> A' >) | (A') = (A + X) /\ (I') = (I + 1) .)
 
 
-(add-goal loop : (< while (i <: x) { while (j <: x) { a = a +: 1 ; } } ~> done
-                    | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X + J) /\ (X < I) = (false) /\ (X < J) = (false) =>
-                 (< done | x |-> X * i |-> I' * j |-> J' * a |-> A' >) | (A') = (X * X) .)
+---(add-goal loop-inner : (< while (i <: x) { j = 0 ; while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
+---                    | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X + J) =>
+---                 (< i = i +: 1 ; while (i <: x) { j = 0 ; while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
+---                    | x |-> X  *  i |-> I * j |-> J' * a |-> A' >) | (A') = (A + X) .)
+
+
+---(add-goal loop : (< while (i <: x) { while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
+                    ---| x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X + J) /\ (X < I) = (false) /\ (X < J) = (false) =>
+                 ---(< done | x |-> X * i |-> I' * j |-> J' * a |-> A' >) | (A') = (X * X) .)
 (start-proof .)
 
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
