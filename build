@@ -17,5 +17,5 @@ if [ ! -f "$repo_dir/ext/rltool" ]; then
 
     progress "Fetching RL Tool"
     curl -o "$repo_dir/ext/rltool.tar.bz2" "https://courses.engr.illinois.edu/cs576/fa2019/tools/rltool.tar.bz2"
-    (cd $repo_dir/ext && tar -xzf rltool.tar.bz2 && rm rltool.tar.bz2)
+    (cd $repo_dir/ext && tar -xzf rltool.tar.bz2 && rm rltool.tar.bz2 && rm -f "$repo_dir/ext/rltool/meta-aux.maude" && cp "$repo_dir/meta-aux.maude" "$repo_dir/ext/rltool/")
 fi
