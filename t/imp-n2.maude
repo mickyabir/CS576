@@ -40,15 +40,15 @@ load ../ext/rltool/rltool.maude
 ---                 (< i = i +: 1 ; ~> while (i <: x) { j = 0 ; while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
 ---                    | x |-> X'  *  i |-> I' * j |-> J' * a |-> A' >) | (A') = ((I' * X') + X') /\ (I') = (I) /\ (X') = (X) .)
 
-(add-goal loop-inner : (< while(j <: x){a = a +: 1 ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
+(add-axiom loop-inner : (< while(j <: x){a = a +: 1 ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = ((I * X) + J) =>
                  (< while (i <: x) { j = 0 ; while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
                     | x |-> X'  *  i |-> I' * j |-> J' * a |-> A' >) | (A') = (I * X' + X') /\ (I') = (I + 1) /\ (X') = (X) .)
 
 
----(add-goal loop : (< while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
----                    | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X) =>
----                 (< done | x |-> X' * i |-> I' * j |-> J' * a |-> A' >) | (A') = ((X' * X')) /\ (X) = (X') .)
+(add-goal loop : (< while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
+                    | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X) =>
+                 (< done | x |-> X' * i |-> I' * j |-> J' * a |-> A' >) | (A') = ((X' * X')) /\ (X) = (X') .)
 (start-proof .)
----(use-axioms loop-inner on 1 . )
+(use-axioms loop-inner on 1 . )
 
