@@ -34,18 +34,24 @@ load ../ext/rltool/rltool.maude
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (X:Nat) U (X':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
 
-(add-axiom loop-inner : (< while(j <: x){a = a +: 1 ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
+(add-goal loop-inner : (< while(j <: x){a = a +: 1 ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = ((I * X) + J) =>
                  (< while (i <: x) { j = 0 ; while (j <: x) { a = a +: 1 ; j = j +: 1 ; } i = i +: 1 ; } ~> done
                     | x |-> X' *  i |-> I' * j |-> J' * a |-> A' >) | (A') = (I' * X') /\ (X') = (X) .)
 
 
-(add-goal loop : (< while(i <: x){j = 0 ; while(j <: x){a = a +: 1 ; j = j +: 1 ;}i = i +: 1 ;}~> done
-                    | x |-> X  *  i |-> I * j |-> J * a |-> A >) | (A) = (I * X) =>
-                 (< done | x |-> X' * i |-> I' * j |-> J' * a |-> A' >) | (A') = (X' * X') /\ (X) = (X') .)
-
 (start-proof .)
-(use-axioms loop loop-inner on 1 . )
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
 (auto .)
 (auto .)
 (auto .)
