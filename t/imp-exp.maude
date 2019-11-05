@@ -39,8 +39,9 @@ load ../ext/rltool/rltool.maude
                     | x |-> X' * y |-> Y'  * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (B' * Y') /\ (X) = (X') /\ (Y) = (Y') .)
 
 (add-goal loop : (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
-                    | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | true =>
+                    | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (Y ^ I)  =>
                  (< done 
-                    | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | true .)
+                    | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (Y' * X') /\ (X') = (X) /\ (Y') = (Y) .)
 
 (start-proof .)
+(use-axioms loop-inner on 1 .)
