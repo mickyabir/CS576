@@ -3,7 +3,7 @@ load ../imp.maude
 fmod EXP is
   pr FVP-NAT-MULT . 
 
-  op _^_ : Nat Nat -> Nat [metadata "60"] .
+  op _^_ : NzNat Nat -> NzNat [metadata "60"] .
 
   var M : NzNat . 
   var N : Nat .
