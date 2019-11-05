@@ -5,7 +5,8 @@ fmod EXP is
 
   op _^_ : Nat Nat -> Nat [metadata "60"] .
 
-  var M N : Nat .
+  var M : NzNat . 
+  var N : Nat .
 
   eq M ^ 0 = 1 . 
   eq M ^ (N + 1) = M * (M ^ N) .
@@ -31,17 +32,42 @@ load ../ext/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (X':Nat) U (Y:Nat) U (Y':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
+(declare-vars (X:Nat) U (X':Nat) U (Y:NzNat) U (Y':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
 
 (add-axiom loop-inner : (< while(j <: y){a = a +: b ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X * y |-> Y  *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (B * J) =>
                  (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done 
-                    | x |-> X' * y |-> Y'  * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (B' * Y') /\ (X) = (X') /\ (Y) = (Y') .)
+                    | x |-> X' * y |-> Y'  * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (B' * Y') /\ (X) = (X') /\ (Y) = (Y') /\ (I') = (I + 1) .)
 
 (add-goal loop : (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
-                    | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (Y ^ I)  =>
+                    | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (Y ^ I) =>
                  (< done 
                     | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (Y' * X') /\ (X') = (X) /\ (Y') = (Y) .)
 
 (start-proof .)
 (use-axioms loop-inner on 1 .)
+
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
