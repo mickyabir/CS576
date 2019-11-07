@@ -1,14 +1,14 @@
 load ../imp.maude
 
 fmod EXP is
-  pr FVP-NAT-MULT . 
+  pr FVP-NAT-MULT .
 
   op _^_ : NzNat Nat -> NzNat [metadata "60"] .
 
-  var M : NzNat . 
+  var M : NzNat .
   var N : Nat .
 
-  eq M ^ 0 = 1 . 
+  eq M ^ 0 = 1 .
   eq M ^ (N + 1) = M * (M ^ N) .
 endfm
 
@@ -32,16 +32,16 @@ load ../ext/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (X':Nat) U (Y:NzNat) U (Y':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
+(declare-vars (X:Nat) U (X':Nat) U (Y:NzNat) U (Y':NzNat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
 
 (add-axiom loop-inner : (< while(j <: y){a = a +: b ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X * y |-> Y  *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (B * J) =>
-                 (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done 
+                 (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X' * y |-> Y'  * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (B' * Y') /\ (X) = (X') /\ (Y) = (Y') /\ (I') = (I + 1) .)
 
 (add-goal loop : (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (Y ^ I) =>
-                 (< done 
+                 (< done
                     | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (Y' * X') /\ (X') = (X) /\ (Y') = (Y) .)
 
 (start-proof .)
@@ -71,3 +71,11 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
+
+--- (auto .)
+--- set break on .
+--- break select ax-action .
+--- set print conceal on .
+--- print conceal fmod_is_sorts_.____endfm mod_is_sorts_._____endm .
+--- (auto .)
+>>>>>>> Stashed changes
