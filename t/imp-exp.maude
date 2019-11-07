@@ -49,7 +49,7 @@ load ../ext/rltool/rltool.maude
                     | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (Y' ^ X')  .)
 
 (start-proof .)
-(use-axioms loop-inner on 1 .)
+(use-axioms loop loop-inner on 1 .)
 (auto .)
 (auto .)
 (auto .)
@@ -74,6 +74,7 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
+(case 198 on &29:Nat by (0) U (P:NzNat) .)
 --- (auto .)
 --- (auto .)
 --- (auto .)
@@ -99,4 +100,9 @@ load ../ext/rltool/rltool.maude
 --- (auto .)
 --- (auto .)
 
-
+(auto .)
+set break on .
+break select ax-action .
+set print conceal on .
+print conceal fmod_is_sorts_.____endfm mod_is_sorts_._____endm .
+(auto .)
