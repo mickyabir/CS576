@@ -34,21 +34,20 @@ load ../ext/rltool/rltool.maude
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (X:Nat) U (X':Nat) U (Y:NzNat) U (Y':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
 
-(add-goal loop-inner : (< while(j <: y){a = a +: b ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
+(add-axiom loop-inner : (< while(j <: y){a = a +: b ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X * y |-> Y  *  i |-> I * j |-> J * a |-> A * b |->
                     B >) | (A) = (B * J) /\ (B) = (Y ^ I)  =>
                  (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
                     | x |-> X' * y |-> Y'  * i |-> I' * j |-> J' * a |-> A' * b
                     |-> B' >) | (A') = (B' * Y') /\  (I') = (I + 1) /\ (A') = (Y' ^ I') .)
 
----(add-goal loop : (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
----                    | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (Y ^ I) =>
----                 (< done
----                    | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (Y' * X') /\ (X') = (X) /\ (Y') = (Y) .)
----
-(start-proof .)
-----(use-axioms loop-inner on 1 .)
+(add-goal loop : (< while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
+                    | x |-> X * y |-> Y *  i |-> I * j |-> J * a |-> A * b |-> B >) | (A) = (Y ^ I) =>
+                 (< done
+                    | x |-> X' * y |-> Y' * i |-> I' * j |-> J' * a |-> A' * b |-> B' >) | (A') = (Y' ^ X') /\ (X') = (X)  .)
 
+(start-proof .)
+(use-axioms loop-inner on 1 .)
 (auto .)
 (auto .)
 (auto .)
@@ -72,39 +71,4 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(case 265 on &27:Nat by (0) U (P:NzNat) .)
-(auto .)
-(case 275 on &29:Nat by (0) U (Q:NzNat) .)
-(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
+
