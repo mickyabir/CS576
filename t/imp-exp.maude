@@ -33,7 +33,7 @@ load ../ext/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (X':Nat) U (Y:NzNat) U (Y':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
+(declare-vars (X:Nat) U (X':Nat) U (Y:NzNat) U (Y':NzNat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
 
 
 (add-axiom loop-inner : (< while(j <: y){a = a +: b ; j = j +: 1 ;} ~> i = i +: 1 ; ~> while(i <: x){j = 0 ; b = a ; a = 0 ; while(j <: y){a = a +: b ; j = j +: 1 ;}i = i +: 1 ;}~> done
@@ -75,34 +75,6 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (case 198 on &29:Nat by (0) U (P:NzNat) .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
---- (auto .)
-
 (auto .)
-set break on .
-break select ax-action .
-set print conceal on .
-print conceal fmod_is_sorts_.____endfm mod_is_sorts_._____endm .
 (auto .)
+quit .
