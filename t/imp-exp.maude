@@ -71,4 +71,7 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
+(auto .)
+(case 173 on Y'&26:Nat by (0) U (N:NzNat) . )
+
 
