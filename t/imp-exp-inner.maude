@@ -75,3 +75,4 @@ load ../ext/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
+quit .
