@@ -65,6 +65,30 @@ fmod IMP-DATA+MUL is
   pr FVP-NAT-MULT .
 endfm
 
+fmod IMP-LIST is
+  pr FVP-NAT .
+  sort List ListInner .
+  sort NatErr . 
+  subsort Nat < ListInner .
+  subsort Nat < NatErr .
+
+  op nil    :                       -> List [ctor metadata "20"] . 
+  op _,_    : ListInner ListerInner -> ListInner [ctor assoc metadata "21"] .
+  op `[_`]  : ListInner             -> List [ctor metadata "21"] . 
+  op concat : List List             -> List [ctor id: nil assoc metadata "22"] .
+  op err    :                       -> NatErr [ctor metadata "23"] .
+  op head   : List                  -> NatErr [metadata "24"] .
+
+  var N : Nat . 
+  var L M : List .
+  var A B : ListInner .
+
+  eq concat([A], [B]) = [A,B] . 
+
+  eq head(nil) = err .
+  eq head([N,A]) = N . 
+endfm
+
 fmod IMP-SYNTAX is
   pr IMP-DATA .
   sort AExp BExp Exp Stmt Ids Value .
