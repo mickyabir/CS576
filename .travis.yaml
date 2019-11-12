@@ -1,0 +1,4 @@
+branches:
+  only:
+  - master
+script: make ; make test
