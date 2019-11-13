@@ -1,4 +1,7 @@
 branches:
   only:
   - master
-script: make ; make test
+os: osx
+before_install:
+  - make
+script: make test
