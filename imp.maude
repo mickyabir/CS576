@@ -78,6 +78,7 @@ fmod IMP-LIST is
   op concat : List List             -> List [ctor id: nil assoc metadata "22"] .
   op err    :                       -> NatErr [ctor metadata "23"] .
   op head   : List                  -> NatErr [metadata "24"] .
+  op tail   : List                  -> List [metadata "25"] .
 
   var N : Nat . 
   var L M : List .
@@ -87,6 +88,9 @@ fmod IMP-LIST is
 
   eq head(nil) = err .
   eq head([N,A]) = N . 
+
+  eq tail(nil) = nil .
+  eq tail([N, A]) = A .
 endfm
 
 fmod IMP-SYNTAX is
