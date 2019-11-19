@@ -162,20 +162,20 @@ fmod ENVIRONMENT is
   pr IMP-DATA .
   sort Env .
   sort VEnv TEnv WrappedEnv .
-  subsort VEnv < Env .
-  subsort TEnv < Env .
   sort Type .
   --- Type
   op TNat   : -> Type [ctor metadata "46"] .
 
   --- Env
-  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mt metadata "47"] .
-  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mt metadata "48"] .
+  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "47"] .
+  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "48"] .
   op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "49"] .
   op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "50"] .
   op _&_    : TEnv VEnv -> Env [ctor metadata "51"] .
   op mt     : -> Env [ctor metadata "52"] .
-  op {_}    : Env -> WrappedEnv [ctor metadata "53"] .
+  op mtVE   : -> VEnv [ctor metadata "53"] .
+  op mtTE   : -> TEnv [ctor metadata "54"] .
+  op {_}    : Env -> WrappedEnv [ctor metadata "55"] .
 endfm
 
 mod IMP-FVP-FRAGMENT is
@@ -186,10 +186,10 @@ mod IMP-FVP-FRAGMENT is
   subsort Stmt Exp !AExp !BExp !Stmt < Redex .
 
   --- RedContext
-  op <_|_>  : Continuation Env -> RedContext [ctor metadata "54"] .
+  op <_|_>  : Continuation Env -> RedContext [ctor metadata "56"] .
   --- Continuation
-  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "55"] .
-  op done   : -> Continuation [ctor metadata "56"] .
+  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "57"] .
+  op done   : -> Continuation [ctor metadata "58"] .
 endm
 
 mod IMP-SEMANTICS is
