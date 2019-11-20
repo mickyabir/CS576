@@ -67,20 +67,33 @@ endfm
 
 fmod IMP-LIST is
   pr FVP-NAT .
-  sort List ListInner .
-  subsort Nat < ListInner .
+  sort List .
+  subsort Nat < List .
 
-  op nil      :                     -> List   [ctor metadata "20"] . 
-  op nilInner :                     -> ListInner   [ctor metadata "20"] . 
-  op _,_      : ListInner ListInner -> ListInner   [ctor id: nilInner assoc metadata "22"] .
-  op `[_`]    : ListInner           -> List [ctor] . 
-  op concat   : List List           -> List [id: nil] .
+  op nil      :           -> List    [ctor metadata "20"] .
+  op _,_      : List List -> List    [ctor id: nil assoc metadata "21"] .
 
-  var N : Nat . 
+  vars N X Y : Nat .
   var L : List .
-  var A B : ListInner .
 
-  eq concat([A], [B]) = [A , B] . 
+  --- operations
+
+  op concat : List List -> List       [metadata "22"] .
+
+  eq concat(L, nil) = L .
+  eq concat(nil, L) = L .
+  eq concat(N, (X, L) )  = N, X, L .
+
+  op head : List -> Nat               [metadata "23"] .
+
+  eq head(nil) = nil .
+  eq head(N, L) = N .
+
+  op tail : List -> Nat                [metadata "24"] .
+
+  eq tail(nil) = nil .
+  eq tail(L, N) = N .
+
 endfm
 
 fmod IMP-SYNTAX is
@@ -91,7 +104,7 @@ fmod IMP-SYNTAX is
   subsort BExp AExp < Exp .
   subsort Bool Nat < Value < Exp .
 
-  --- ctors 
+  --- ctors
   op __              : Stmt Stmt      -> Stmt  [ctor prec 42 gather (E e) metadata "25"] .
   op if (_) _ else _ : BExp Stmt Stmt -> Stmt  [ctor metadata "26" ] .
   op while (_) _     : BExp Stmt      -> Stmt  [ctor metadata "27"] .
