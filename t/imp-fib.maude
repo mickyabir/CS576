@@ -23,14 +23,14 @@ mod FIB+IMP-SEMANTICS is
 endm
 
 set show advisories off .
-set print attribute on .
+---set print attribute on .
 
 load ../ext/rltool/rltool.maude
 
 (select FIB+IMP-SEMANTICS  .)
 (use tool conrew for validity          on FIB+IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
-(use tool varunif for varunif          on FVP-NAT .)
-(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+---(use tool varunif for varunif          on FVP-NAT .)
+---(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (K:Nat) U (X:Nat) U (I:NzNat) U (A:NzNat) U (B:Nat) U (C:NzNat) U (A':NzNat) U (B':Nat) U (I':NzNat) U (C':NzNat) .)
 
@@ -50,9 +50,11 @@ load ../ext/rltool/rltool.maude
 
 
 (add-goal loop : (< while (i <: x) { c = a +: b ; i = i +: 1 ; k = b ;  b = a ; a = c ; } ~> done
-                    | k |-> K * x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C >) | (C) = (K + B) /\ (1 < I) = (true) =>
+                    | (mtTE)
+                    & (k |-> K * x |-> X  *  i |-> I * a |-> A * b |-> B * c |-> C) >) | (C) = (K + B) /\ (1 < I) = (true) =>
                  (< done
-		    | x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C' >) | (C') = (fib(I')) /\ (X) = (I') .)
+                    | (mtTE)
+		                & (x |-> X * i |-> I' * a |-> A' * b |-> B' * c |-> C') >) | (C') = (fib(I')) /\ (X) = (I') .)
 (start-proof .)
 
 (auto .)
