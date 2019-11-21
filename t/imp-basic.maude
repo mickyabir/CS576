@@ -1,0 +1,5 @@
+load ../imp.maude
+
+select IMP-SEMANTICS .
+
+red (< a = a +: 1 ; | a |-> TNat & a |-> 0 > )
