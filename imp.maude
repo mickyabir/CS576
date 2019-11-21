@@ -245,8 +245,8 @@ mod IMP-SEMANTICS is
   rl [if-false]  : < if (false) S else S' ~> K | E > => < S' ~> K | E > .
   rl [while]     : < while (BE) {S} ~> K | E >       => < if (BE) {S while (BE) {S}} else {} ~> K | E > .
   --- Assignemnt/lookup rules assume memory locations exist and are unique
-  rl [assign]    : < (Q = N ;) ~> K | TE & VE * Q |-> M >  => < K | TE & VE * Q |-> N > .
-  rl [lookup]    : < Q ~> K | TE & VE * Q |-> N >          => < N ~> K | TE & VE * Q |-> N > .
+  rl [assign]    : < (Q = N ;) ~> K | (TE) & (VE * (Q |-> M)) >  => < K | (TE) & (VE * (Q |-> N)) > .
+  rl [lookup]    : < Q ~> K | (TE) & (VE * (Q |-> N)) >          => < N ~> K | (TE) & (VE * (Q |-> N)) > .
   --- Exps
   rl [add]       : < N +: M       ~> K | E >        => < N + M    ~> K | E > .
   rl [mul]       : < N *: M       ~> K | E >        => < N * M    ~> K | E > .

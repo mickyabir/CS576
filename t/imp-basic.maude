@@ -2,4 +2,5 @@ load ../imp.maude
 
 select IMP-SEMANTICS .
 
-red (< a = a +: 1 ; | a |-> TNat & a |-> 0 > )
+rew (< (a = 1 ;) ~> done | (a |-> TNat) & (a |-> 0) > ) .
+
