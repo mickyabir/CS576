@@ -3,4 +3,4 @@ load ../imp.maude
 select IMP-SEMANTICS .
 
 rew (< (a = 1 ;) ~> done | (a |-> TNat) & (a |-> 0) > ) .
-
+quit .
