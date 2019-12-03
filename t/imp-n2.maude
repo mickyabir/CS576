@@ -25,7 +25,7 @@ endm
 set show advisories off .
 set print attribute on .
 
-load ../ext/rltool/rltool.maude
+load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
 (select FIB+IMP-SEMANTICS  .)
 (use tool conrew for validity          on FIB+IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)

@@ -11,11 +11,3 @@ if [ ! -f "$repo_dir/ext/maude" ]; then
     curl -o "$repo_dir/ext/maude.tar.bz2" "https://courses.engr.illinois.edu/cs576/fa2019/tools/maude-a120-mac.tar.bz2"
     (cd $repo_dir/ext && tar -xzf maude.tar.bz2 && rm maude.tar.bz2)
 fi
-
-if [ ! -f "$repo_dir/ext/rltool" ]; then
-    mkdir -p "$repo_dir/ext"
-
-    progress "Fetching RL Tool"
-    curl -o "$repo_dir/ext/rltool.tar.bz2" "https://courses.engr.illinois.edu/cs576/fa2019/tools/rltool.tar.bz2"
-    (cd $repo_dir/ext && tar -xzf rltool.tar.bz2 && rm rltool.tar.bz2)
-fi

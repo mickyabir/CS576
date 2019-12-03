@@ -3,7 +3,7 @@ load ../imp.maude
 set show advisories off .
 set print attribute on .
 
-load ../ext/rltool/rltool.maude
+load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
 (select IMP-SEMANTICS  .)
 (use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
