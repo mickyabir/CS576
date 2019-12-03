@@ -1,0 +1,6 @@
+load ../imp.maude
+
+rew in IMP-SEMANTICS : < x = nil ; ~> done
+                    | (x |-> TList)
+                    & (x |-> 1 $ 1) > .
+quit .
