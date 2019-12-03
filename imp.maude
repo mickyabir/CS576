@@ -45,55 +45,55 @@ fmod FVP-NAT-MULT is
   eq N * (NzN + NzN') = (N * NzN) + (N * NzN') .
 endfm
 
-fmod IMP-DATA is
-  pr FVP-NAT .
-  sort Id .
-  op a  :    -> Id [ctor metadata "10"] .
-  op b  :    -> Id [ctor metadata "11"] .
-  op c  :    -> Id [ctor metadata "12"] .
-  op i  :    -> Id [ctor metadata "13"] .
-  op j  :    -> Id [ctor metadata "14"] .
-  op k  :    -> Id [ctor metadata "15"] .
-  op x  :    -> Id [ctor metadata "16"] .
-  op y  :    -> Id [ctor metadata "17"] .
-  op z  :    -> Id [ctor metadata "18"] .
-  op _, : Id -> Id [ctor metadata "19"] .
-endfm
-
-fmod IMP-DATA+MUL is
-  pr IMP-DATA .
-  pr FVP-NAT-MULT .
-endfm
-
 fmod IMP-LIST is
   pr FVP-NAT .
   sort List .
   subsort Nat < List .
 
-  op nil      :           -> List    [ctor metadata "20"] .
-  op _,_      : List List -> List    [ctor id: nil assoc metadata "21"] .
+  op nil      :           -> List    [ctor metadata "10"] .
+  op _$_      : List List -> List    [ctor id: nil assoc metadata "11"] .
 
   vars N X Y : Nat .
   var L : List .
 
   --- operations
 
-  op concat : List List -> List       [metadata "22"] .
+  op concat : List List -> List       [metadata "12"] .
 
   eq concat(L, nil) = L .
   eq concat(nil, L) = L .
-  eq concat(N, (X, L) )  = N, X, L .
+  eq concat(N, (X $ L) )  = N $ X $ L .
 
-  op head : List -> Nat               [metadata "23"] .
+  op head : List -> Nat               [metadata "13"] .
 
   eq head(nil) = nil .
-  eq head(N, L) = N .
+  eq head(N $ L) = N .
 
-  op tail : List -> Nat                [metadata "24"] .
+  op tail : List -> Nat                [metadata "14"] .
 
   eq tail(nil) = nil .
-  eq tail(L, N) = N .
+  eq tail(L $ N) = N .
 
+endfm
+
+fmod IMP-DATA is
+  pr IMP-LIST .
+  sort Id .
+  op a  :    -> Id [ctor metadata "15"] .
+  op b  :    -> Id [ctor metadata "16"] .
+  op c  :    -> Id [ctor metadata "17"] .
+  op i  :    -> Id [ctor metadata "18"] .
+  op j  :    -> Id [ctor metadata "19"] .
+  op k  :    -> Id [ctor metadata "20"] .
+  op x  :    -> Id [ctor metadata "21"] .
+  op y  :    -> Id [ctor metadata "22"] .
+  op z  :    -> Id [ctor metadata "23"] .
+  op _, : Id -> Id [ctor metadata "24"] .
+endfm
+
+fmod IMP-DATA+MUL is
+  pr IMP-DATA .
+  pr FVP-NAT-MULT .
 endfm
 
 fmod IMP-SYNTAX is
@@ -165,17 +165,19 @@ fmod ENVIRONMENT is
   sort Type .
   --- Type
   op TNat   : -> Type [ctor metadata "46"] .
+  op TList  : -> Type [ctor metadata "47"] .
 
   --- Env
-  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "47"] .
-  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "48"] .
-  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "49"] .
-  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "50"] .
-  op _&_    : TEnv VEnv -> Env [ctor metadata "51"] .
-  op mt     : -> Env [ctor metadata "52"] .
-  op mtVE   : -> VEnv [ctor metadata "53"] .
-  op mtTE   : -> TEnv [ctor metadata "54"] .
-  op {_}    : Env -> WrappedEnv [ctor metadata "55"] .
+  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "48"] .
+  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "49"] .
+  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "50"] .
+  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "51"] .
+  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "52"] .
+  op _&_    : TEnv VEnv -> Env [ctor metadata "53"] .
+  op mt     : -> Env [ctor metadata "54"] .
+  op mtVE   : -> VEnv [ctor metadata "55"] .
+  op mtTE   : -> TEnv [ctor metadata "56"] .
+  op {_}    : Env -> WrappedEnv [ctor metadata "57"] .
 endfm
 
 mod IMP-FVP-FRAGMENT is
@@ -186,10 +188,10 @@ mod IMP-FVP-FRAGMENT is
   subsort Stmt Exp !AExp !BExp !Stmt < Redex .
 
   --- RedContext
-  op <_|_>  : Continuation Env -> RedContext [ctor metadata "56"] .
+  op <_|_>  : Continuation Env -> RedContext [ctor metadata "58"] .
   --- Continuation
-  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "57"] .
-  op done   : -> Continuation [ctor metadata "58"] .
+  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "59"] .
+  op done   : -> Continuation [ctor metadata "60"] .
 endm
 
 mod IMP-SEMANTICS is

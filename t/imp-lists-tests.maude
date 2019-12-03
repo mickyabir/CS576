@@ -1,6 +1,6 @@
 load ../imp.maude
 
-red in IMP-LIST : 1, (1 + 1), nil .
+red in IMP-LIST : 1 $ (1 + 1) $ nil .
 
 red in IMP-LIST : concat(1, nil) .
 
@@ -14,13 +14,13 @@ red in IMP-LIST : concat(1, concat(concat(1, nil) ,  1 + 1)) .
 red in IMP-LIST : head(nil) .
 
 --- 1 + 1
-red in IMP-LIST : head((1 + 1), 1, nil) .
+red in IMP-LIST : head((1 + 1) $ 1 $ nil) .
 
 --- Should be nil
 red in IMP-LIST : tail(nil) .
 
 --- 1
-red in IMP-LIST : tail((1 + 1), 1, nil) .
+red in IMP-LIST : tail((1 + 1) $ 1 $ nil) .
 
 
 quit .
