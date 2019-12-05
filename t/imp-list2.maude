@@ -1,6 +1,6 @@
 load ../imp.maude
 
-rew in IMP-SEMANTICS : < x = 1 $ (1 + 1) $ 1 ; ~> done
+rew in IMP-SEMANTICS : < x = 1 $ (1 + 1) ; ~> done
                     | (x |-> TList)
                     & (x |-> nil) > .
 quit .
