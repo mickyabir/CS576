@@ -54,7 +54,7 @@ fmod IMP-LIST is
   op _$_      : List List -> List    [ctor id: nil assoc metadata "11"] .
 
   vars N X Y : Nat .
-  var L : List .
+  var L L' : List .
 
   --- operations
 
@@ -66,7 +66,12 @@ fmod IMP-LIST is
   op tail : List -> Nat                [metadata "14"] .
 
   eq tail(nil) = nil .
-  eq tail(L $ N) = N .
+  eq tail(N $ L) = L .
+
+  op isEmpty  : List -> Bool    [metadata "15"] .
+
+  eq isEmpty(nil) = true .
+  eq isEmpty(N $ L) = false .
 
 endfm
 
@@ -240,6 +245,9 @@ mod IMP-SEMANTICS is
  crl [#not]       : < ! BE       ~> K | E >         => < BE ~> ! []       ~> K | E >        if val?(BE) = false .
  crl [#list-conc-left] : < LE ++list LE' ~> K | E >      => < LE ~> [] ++list LE' ~> K | E >     if val?(LE) = false .
  crl [#list-conc-rght] : < LE' ++list LE ~> K | E >      => < LE ~> LE' ++list [] ~> K | E >     if val?(LE) = false .
+ crl [#list-first] : < first(LE)         ~> K | E >      => < LE ~> first([])     ~> K | E >     if val?(LE) = false .
+ crl [#list-last]  : < last(LE)          ~> K | E >      => < LE ~> last([])      ~> K | E >     if val?(LE) = false .
+ crl [#list-empty] : < empty(LE)         ~> K | E >      => < LE ~> empty([])     ~> K | E >     if val?(LE) = false .
   --- Cooling Rules
   rl [@if]        : < B  ~> if ([]) S else S' ~> K | E > => < if (B) S else S' ~> K | E > .
   rl [@assign-ae] : < N  ~> Q = [];   ~> K | E >     => < (Q = N ;) ~> K | E > .
@@ -256,6 +264,9 @@ mod IMP-SEMANTICS is
   rl [@not]       : < B  ~> ! []      ~> K | E >     => < ! B       ~> K | E > .
   rl [@list-conc-left]  : < L  ~> [] ++list LE  ~> K | E >  => < L ++list LE ~> K | E > .
   rl [@list-conc-rght]  : < L  ~> LE ++list []  ~> K | E >  => < LE ++list L ~> K | E > .
+  rl [@list-first]      : < L  ~> first([])     ~> K | E >  => < first(L)    ~> K | E > .
+  rl [@list-last]       : < L  ~> last([])      ~> K | E >  => < last(L)     ~> K | E > .
+  rl [@list-empty]      : < L  ~> empty([])     ~> K | E >  => < empty(L)    ~> K | E > .
   --- Semantic Rules
   --- Stmts
   rl [stmtlist]  : < S S' ~> K | E >                 => < S ~> S' ~> K | E > .
@@ -270,15 +281,18 @@ mod IMP-SEMANTICS is
   rl [lookup-nat]    : < Q ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) >          => < N ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
   rl [lookup-list]   : < Q ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) >          => < L ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
   --- Exps
-  rl [add]       : < N +: M       ~> K | E >        => < N + M    ~> K | E > .
-  rl [mul]       : < N *: M       ~> K | E >        => < N * M    ~> K | E > .
-  rl [sub]       : < N -: M       ~> K | E >        => < sd(N,M)  ~> K | E > .
-  rl [lt]        : < N <: M       ~> K | E >        => < N < M    ~> K | E > .
-  rl [not-1]     : < ! true       ~> K | E >        => < false    ~> K | E > .
-  rl [not-2]     : < ! false      ~> K | E >        => < true     ~> K | E > .
-  rl [and-true]  : < true  &&: BE ~> K | E >        => < BE       ~> K | E > .
-  rl [and-false] : < false &&: BE ~> K | E >        => < false    ~> K | E > .
-  rl [list-conc] : < L ++list L'  ~> K | E >        => < L $ L' ~> K | E > .
+  rl [add]        : < N +: M       ~> K | E >        => < N + M        ~> K | E > .
+  rl [mul]        : < N *: M       ~> K | E >        => < N * M        ~> K | E > .
+  rl [sub]        : < N -: M       ~> K | E >        => < sd(N,M)      ~> K | E > .
+  rl [lt]         : < N <: M       ~> K | E >        => < N < M        ~> K | E > .
+  rl [not-1]      : < ! true       ~> K | E >        => < false        ~> K | E > .
+  rl [not-2]      : < ! false      ~> K | E >        => < true         ~> K | E > .
+  rl [and-true]   : < true  &&: BE ~> K | E >        => < BE           ~> K | E > .
+  rl [and-false]  : < false &&: BE ~> K | E >        => < false        ~> K | E > .
+  rl [list-conc]  : < L ++list L'  ~> K | E >        => < L $ L'       ~> K | E > .
+  rl [list-first] : < first(L)     ~> K | E >        => < head(L)      ~> K | E > .
+  rl [list-last]  : < last(L)      ~> K | E >        => < tail(L)      ~> K | E > .
+  rl [list-empty] : < empty(L)     ~> K | E >        => < isEmpty(L)   ~> K | E > .
 endm
 
 mod NONSEQ-IMP-SEMANTICS is
