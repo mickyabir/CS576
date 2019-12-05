@@ -1,22 +1,43 @@
 load ../imp.maude
 
+fmod REV is 
+  pr IMP-LIST .
+  
+  op rev : List -> List [metadata "80"] .
+
+  var L : List .
+
+  eq rev(nil) = nil .
+  eq rev(L) = tail(L) $ head(L) . 
+endfm
+
+mod REV+IMP-SYNTAX+MUL is 
+  pr REV .
+  pr IMP-SYNTAX+MUL .
+endm
+
+mod REV+IMP-SEMANTICS is 
+  pr REV .
+  pr IMP-SEMANTICS .
+endm
+
 set show advisories off .
 set print attribute on .
 
 load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
-(select IMP-SEMANTICS  .)
-(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(select REV+IMP-SEMANTICS  .)
+(use tool conrew for validity          on REV+IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:Nat) U (I:Nat) U (S:Nat) U (I':Nat) U (S':Nat) U (T:Type) .)
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) .)
 
-(add-goal loop : (< x = 1 $ (1 + 1) ; ~> done
-                    | (x |-> TList)
-                    & (x |-> nil) >) | (true) =>
-                 (< x = 1 $ (1 + 1) ; ~> done
-                    | (x |-> TList)
-                    & (x |-> 1 $ (1 + 1)) >) | (true) .)
+(add-goal loop : (< while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
+                    | (x |-> TList * y |-> TList)
+                    & (x |-> X * y |-> Y) >) | (true) =>
+                 (< done
+                    | (x |-> TList * y |-> TList)
+                    & (x |-> X' * Y |-> Y') >) | (true) .)
 
 (start-proof .)
