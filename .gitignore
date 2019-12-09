@@ -1,1 +1,2 @@
-ext/maude-a120
+ext/
+.build/
