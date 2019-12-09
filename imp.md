@@ -1,3 +1,10 @@
+The IMP-SEMANTICS
+=================
+
+These are the semantics of IMP
+
+```maude
+
 set include BOOL off .
 
 fmod FVP-NAT is
@@ -306,3 +313,6 @@ mod NONSEQ-IMP-SEMANTICS is
  crl [@add-rght] : < AE +: AE' ~> K | E >         => < AE' ~> AE +: []   ~> K | E > if val?(AE) = false .
   rl [#add-rght] : < N  ~> AE +: []   ~> K | E >  => < AE +: N  ~> K | E > .
 endm
+
+```
+
