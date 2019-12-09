@@ -65,4 +65,6 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
                     & (x |-> X' * Y |-> Y' * z |-> Z') >) | (true) .)
 
 
-(start-proof .)
+---(start-proof .)
+
+quit . 
