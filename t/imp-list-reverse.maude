@@ -50,21 +50,12 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) .)
 
----(add-goal loop : (< z = x ; while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
----                    | (x |-> TList * y |-> TList * z |-> TList)
----                    & (x |-> X * y |-> Y * z |-> Z) >) | ((rev(Y) $ X) ==list Z) =>
----                 (< done
----                    | (x |-> TList * y |-> TList * z |-> TList)
----                    & (x |-> X' * Y |-> Y' * z |-> Z') >) | (rev(Y') ==list Z') .)
-
 (add-goal loop : (< z = x ; while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
                     | (x |-> TList * y |-> TList * z |-> TList)
-                    & (x |-> X * y |-> Y * z |-> Z) >) | (X ==list X) =>
+                    & (x |-> X * y |-> Y * z |-> Z) >) | (X) = (rev(Y)) =>
                  (< done
                     | (x |-> TList * y |-> TList * z |-> TList)
                     & (x |-> X' * Y |-> Y' * z |-> Z') >) | (true) .)
 
 
----(start-proof .)
-
-quit . 
+(start-proof .)
