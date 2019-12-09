@@ -1,14 +1,31 @@
 load ../imp.maude
 
-fmod REV is 
+fmod LIST-EQUAL is 
   pr IMP-LIST .
+  op _andbool_ : Bool Bool -> Bool [comm assoc metadata "78"] .
+  op _==list_  : List List -> Bool [comm metadata "79"] .
+
+  var A : Bool .
+
+  eq false andbool A = false . 
+  eq true andbool A = A . 
+
+  var L L' : List . var M N : Nat . 
+
+  eq nil ==list nil = true .
+  eq (M $ L) ==list nil = false . 
+  eq (M $ L) ==list (N $ L') = (L ==list L') andbool (M <= N) andbool (N <= M) . 
+endfm
+
+fmod REV is 
+  pr LIST-EQUAL .
   
   op rev : List -> List [metadata "80"] .
 
   var L : List .
 
   eq rev(nil) = nil .
-  eq rev(L) = tail(L) $ head(L) . 
+  eq rev(L) = rev(tail(L)) $ head(L) . 
 endfm
 
 mod REV+IMP-SYNTAX+MUL is 
@@ -31,13 +48,21 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) .)
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) .)
 
-(add-goal loop : (< while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
-                    | (x |-> TList * y |-> TList)
-                    & (x |-> X * y |-> Y) >) | (true) =>
+---(add-goal loop : (< z = x ; while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
+---                    | (x |-> TList * y |-> TList * z |-> TList)
+---                    & (x |-> X * y |-> Y * z |-> Z) >) | ((rev(Y) $ X) ==list Z) =>
+---                 (< done
+---                    | (x |-> TList * y |-> TList * z |-> TList)
+---                    & (x |-> X' * Y |-> Y' * z |-> Z') >) | (rev(Y') ==list Z') .)
+
+(add-goal loop : (< z = x ; while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
+                    | (x |-> TList * y |-> TList * z |-> TList)
+                    & (x |-> X * y |-> Y * z |-> Z) >) | (X ==list X) =>
                  (< done
-                    | (x |-> TList * y |-> TList)
-                    & (x |-> X' * Y |-> Y') >) | (true) .)
+                    | (x |-> TList * y |-> TList * z |-> TList)
+                    & (x |-> X' * Y |-> Y' * z |-> Z') >) | (true) .)
+
 
 (start-proof .)
