@@ -1,3 +1,6 @@
 [submodule "ext/maude-private"]
 	path = ext/maude-private
 	url = git@github.com:sskeirik/maude-private.git
+[submodule "ext/pandoc-tangle"]
+	path = ext/pandoc-tangle
+	url = https://github.com/ehildenb/pandoc-tangle.git
