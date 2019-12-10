@@ -70,7 +70,7 @@ fmod IMP-LIST is
   eq head(nil) = nil .
   eq head(N $ L) = N .
 
-  op tail : List -> Nat                [metadata "14"] .
+  op tail : List -> List               [metadata "14"] .
 
   eq tail(nil) = nil .
   eq tail(N $ L) = L .

@@ -55,7 +55,7 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
                     & (x |-> X * y |-> Y * z |-> Z) >) | (Z) = (rev(Y) $ X) =>
                  (< done
                     | (x |-> TList * y |-> TList * z |-> TList)
-                    & (x |-> X' * Y |-> Y' * z |-> Z') >) | (Z') = (rev(Y')) .)
+                    & (x |-> X' * Y |-> Y' * z |-> Z') >) | (true) = (false) .)
 
 
 (start-proof .)
@@ -95,6 +95,8 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (auto .)
 (auto .)
 (auto .)
+set break on .
+break select simp-action .
 (auto .)
 
-quit .
+---quit .
