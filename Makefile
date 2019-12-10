@@ -1,11 +1,11 @@
 
-CURRENT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-TESTDIR = t
-TESTS = $(wildcard $(TESTDIR)/*.maude)
-TESTRUN = $(patsubst %.maude, .build/%.maude.run.timestamp ,$(TESTS))
-SIMPLERUN = $(patsubst %.maude, .build/%.maude.run ,$(TESTS))
-PANDOC_TANGLE="ext/pandoc-tangle/tangle.lua"
-MAUDE_BIN="$(CURRENT_DIR)/ext/maude-a120/maude"
+CURRENT_DIR   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+TESTDIR        = t
+TESTS          = $(wildcard $(TESTDIR)/*.maude)
+TESTRUN        = $(patsubst %.maude, .build/%.maude.run.timestamp ,$(TESTS))
+SIMPLERUN      = $(patsubst %.maude, .build/%.maude.run ,$(TESTS))
+PANDOC_TANGLE  = "ext/pandoc-tangle/tangle.lua"
+MAUDE_BIN      = "$(CURRENT_DIR)/ext/maude-a120/maude"
 
 .PHONY= clean $(SIMPLERUN)
 
