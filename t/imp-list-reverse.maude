@@ -1,39 +1,39 @@
 load ../imp.maude
 
-fmod LIST-EQUAL is 
+fmod LIST-EQUAL is
   pr IMP-LIST .
   op _andbool_ : Bool Bool -> Bool [comm assoc metadata "78"] .
   op _==list_  : List List -> Bool [comm metadata "79"] .
 
   var A : Bool .
 
-  eq false andbool A = false . 
-  eq true andbool A = A . 
+  eq false andbool A = false .
+  eq true andbool A = A .
 
-  var L L' : List . var M N : Nat . 
+  var L L' : List . var M N : Nat .
 
   eq nil ==list nil = true .
-  eq (M $ L) ==list nil = false . 
-  eq (M $ L) ==list (N $ L') = (L ==list L') andbool (M <= N) andbool (N <= M) . 
+  eq (M $ L) ==list nil = false .
+  eq (M $ L) ==list (N $ L') = (L ==list L') andbool (M <= N) andbool (N <= M) .
 endfm
 
-fmod REV is 
+fmod REV is
   pr LIST-EQUAL .
-  
+
   op rev : List -> List [metadata "80"] .
 
-  var L : List . var N : Nat . 
+  var L : List . var N : Nat .
 
   eq rev(nil) = nil .
-  eq rev(N $ L) = rev(L) $ N . 
+  eq rev(N $ L) = rev(L) $ N .
 endfm
 
-mod REV+IMP-SYNTAX+MUL is 
+mod REV+IMP-SYNTAX+MUL is
   pr REV .
   pr IMP-SYNTAX+MUL .
 endm
 
-mod REV+IMP-SEMANTICS is 
+mod REV+IMP-SEMANTICS is
   pr REV .
   pr IMP-SEMANTICS .
 endm
@@ -50,7 +50,7 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) .)
 
-(add-goal loop : (< z = x ; while (! isEmpty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
+(add-goal loop : (< z = x ; while (! empty(x)) { y = y ++list first(x) ; x = last(x) ; } ~> done
                     | (x |-> TList * y |-> TList * z |-> TList)
                     & (x |-> X * y |-> Y * z |-> Z) >) | (Z) = (rev(Y) $ X) =>
                  (< done
@@ -60,4 +60,41 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
 (start-proof .)
 (auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+(auto .)
+
 quit .
