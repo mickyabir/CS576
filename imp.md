@@ -70,7 +70,7 @@ fmod IMP-LIST is
   eq head(nil) = nil .
   eq head(N $ L) = N .
 
-  op tail : List -> List               [metadata "14"] .
+  op tail : List -> List                [metadata "14"] .
 
   eq tail(nil) = nil .
   eq tail(N $ L) = L .
@@ -85,16 +85,16 @@ endfm
 fmod IMP-DATA is
   pr IMP-LIST .
   sort Id .
-  op a  :    -> Id [ctor metadata "15"] .
-  op b  :    -> Id [ctor metadata "16"] .
-  op c  :    -> Id [ctor metadata "17"] .
-  op i  :    -> Id [ctor metadata "18"] .
-  op j  :    -> Id [ctor metadata "19"] .
-  op k  :    -> Id [ctor metadata "20"] .
-  op x  :    -> Id [ctor metadata "21"] .
-  op y  :    -> Id [ctor metadata "22"] .
-  op z  :    -> Id [ctor metadata "23"] .
-  op _, : Id -> Id [ctor metadata "24"] .
+  op a  :    -> Id [ctor metadata "16"] .
+  op b  :    -> Id [ctor metadata "17"] .
+  op c  :    -> Id [ctor metadata "18"] .
+  op i  :    -> Id [ctor metadata "19"] .
+  op j  :    -> Id [ctor metadata "20"] .
+  op k  :    -> Id [ctor metadata "21"] .
+  op x  :    -> Id [ctor metadata "22"] .
+  op y  :    -> Id [ctor metadata "23"] .
+  op z  :    -> Id [ctor metadata "24"] .
+  op _, : Id -> Id [ctor metadata "25"] .
 endfm
 
 fmod IMP-DATA+MUL is
@@ -112,25 +112,25 @@ fmod IMP-SYNTAX is
   subsort Bool Nat List < Value < Exp .
 
   --- ctors
-  op __              : Stmt Stmt      -> Stmt  [ctor prec 42 gather (E e) metadata "25"] .
-  op if (_) _ else _ : BExp Stmt Stmt -> Stmt  [ctor metadata "26" ] .
-  op while (_) _     : BExp Stmt      -> Stmt  [ctor metadata "27"] .
-  op {_}             : Stmt           -> Stmt  [ctor metadata "28"] .
-  op {}              :                -> Stmt  [ctor metadata "29"] .
-  op _=_;            : Id AExp        -> Stmt  [ctor metadata "30"] .
-  op _=_;            : Id LExp        -> Stmt  [ctor metadata "30"] .
-  op _+:_            : AExp AExp      -> AExp  [ctor metadata "31"] .
-  op _-:_            : AExp AExp      -> AExp  [ctor metadata "32"] .
-  op _*:_            : AExp AExp      -> AExp  [ctor metadata "33"] .
-  op !_              : BExp           -> BExp  [ctor metadata "34"] .
-  op _<:_            : AExp AExp      -> BExp  [ctor metadata "35"] .
-  op _&&:_           : BExp BExp      -> BExp  [ctor metadata "36"] .
-  op _++list_        : LExp LExp      -> LExp  [ctor metadata "37"] .
-  op first (_)       : LExp           -> LExp  [ctor metadata "38"] .
-  op last  (_)       : LExp           -> LExp  [ctor metadata "39"] .
-  op empty (_)       : LExp           -> BExp  [ctor metadata "40"] .
+  op __              : Stmt Stmt      -> Stmt  [ctor prec 42 gather (E e) metadata "26"] .
+  op if (_) _ else _ : BExp Stmt Stmt -> Stmt  [ctor metadata "27" ] .
+  op while (_) _     : BExp Stmt      -> Stmt  [ctor metadata "28"] .
+  op {_}             : Stmt           -> Stmt  [ctor metadata "29"] .
+  op {}              :                -> Stmt  [ctor metadata "30"] .
+  op _=_;            : Id AExp        -> Stmt  [ctor metadata "31"] .
+  op _=_;            : Id LExp        -> Stmt  [ctor metadata "32"] .
+  op _+:_            : AExp AExp      -> AExp  [ctor metadata "33"] .
+  op _-:_            : AExp AExp      -> AExp  [ctor metadata "34"] .
+  op _*:_            : AExp AExp      -> AExp  [ctor metadata "35"] .
+  op !_              : BExp           -> BExp  [ctor metadata "36"] .
+  op _<:_            : AExp AExp      -> BExp  [ctor metadata "37"] .
+  op _&&:_           : BExp BExp      -> BExp  [ctor metadata "38"] .
+  op _++list_        : LExp LExp      -> LExp  [ctor metadata "39"] .
+  op first (_)       : LExp           -> LExp  [ctor metadata "40"] .
+  op last  (_)       : LExp           -> LExp  [ctor metadata "41"] .
+  op empty (_)       : LExp           -> BExp  [ctor metadata "42"] .
   --- defined
-  op val?            : Exp            -> Bool [metadata "37"] .
+  op val?            : Exp            -> Bool [metadata "43"] .
   ---
   var A A' : AExp . var B B' : BExp . var L L' : LExp .
   ---
@@ -157,27 +157,27 @@ fmod IMP-HOLE-SYNTAX is
   pr IMP-SYNTAX .
   sort !AExp !BExp !LExp !Stmt .
   --- !AExp
-  op []+:_  : AExp -> !AExp [ctor metadata "38"] .
-  op _+:[]  : AExp -> !AExp [ctor metadata "39"] .
-  op []*:_  : AExp -> !AExp [ctor metadata "40"] .
-  op _*:[]  : AExp -> !AExp [ctor metadata "41"] .
-  op []-:_  : AExp -> !AExp [ctor metadata "42"] .
-  op _-:[]  : AExp -> !AExp [ctor metadata "43"] .
+  op []+:_  : AExp -> !AExp [ctor metadata "44"] .
+  op _+:[]  : AExp -> !AExp [ctor metadata "45"] .
+  op []*:_  : AExp -> !AExp [ctor metadata "46"] .
+  op _*:[]  : AExp -> !AExp [ctor metadata "47"] .
+  op []-:_  : AExp -> !AExp [ctor metadata "48"] .
+  op _-:[]  : AExp -> !AExp [ctor metadata "49"] .
   --- !BExp
-  op ![]    : -> !BExp         [ctor metadata "44"] .
-  op []<:_  : AExp -> !BExp    [ctor metadata "45"] .
-  op _<:[]  : Nat -> !BExp     [ctor metadata "46"] .
-  op []&&:_ : BExp -> !BExp    [ctor metadata "47"] .
-  op empty([]) : -> !BExp      [ctor metadata "47"] .
+  op ![]    : -> !BExp         [ctor metadata "50"] .
+  op []<:_  : AExp -> !BExp    [ctor metadata "51"] .
+  op _<:[]  : Nat -> !BExp     [ctor metadata "52"] .
+  op []&&:_ : BExp -> !BExp    [ctor metadata "53"] .
+  op empty([]) : -> !BExp      [ctor metadata "53"] .
   --- !LExp
-  op []++list_ : LExp -> !LExp    [ctor metadata "47"] .
-  op _++list[] : LExp -> !LExp    [ctor metadata "47"] .
-  op first([]) : -> !LExp    [ctor metadata "47"] .
-  op last([])  : -> !LExp    [ctor metadata "47"] . 
+  op []++list_ : LExp -> !LExp    [ctor metadata "54"] .
+  op _++list[] : LExp -> !LExp    [ctor metadata "55"] .
+  op first([]) : -> !LExp    [ctor metadata "56"] .
+  op last([])  : -> !LExp    [ctor metadata "57"] .
   --- !Stmt
-  op if ([]) _ else _ : Stmt Stmt -> !Stmt [ctor metadata "48"] .
-  op while ([]) _     : Stmt      -> !Stmt [ctor metadata "49"] .
-  op _=[];            : Id        -> !Stmt [ctor metadata "50"] .
+  op if ([]) _ else _ : Stmt Stmt -> !Stmt [ctor metadata "58"] .
+  op while ([]) _     : Stmt      -> !Stmt [ctor metadata "59"] .
+  op _=[];            : Id        -> !Stmt [ctor metadata "60"] .
 endfm
 
 fmod ENVIRONMENT is
