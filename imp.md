@@ -334,24 +334,73 @@ cannot be further evaluated, the cooling rules take over as explained below.
 ```maude
   --- Rules
   --- Heating Rules
- crl [#if]        : < if (BE) S else S' ~> K | E >  => < BE ~> if ([]) S else S' ~> K | E > if val?(BE) = false .
- crl [#assign-ae] : < (Q = AE ;) ~> K | E >         => < AE ~> Q = [];    ~> K | E >        if val?(AE) = false .
- crl [#assign-le] : < (Q =l LE ;) ~> K | E >         => < LE ~> Q =l [];    ~> K | E >        if val?(LE) = false .
- crl [#add-lft]   : < AE +:  AE' ~> K | E >         => < AE ~> [] +: AE'  ~> K | E >        if val?(AE) = false .
- crl [#add-rght]  : < N  +:  AE  ~> K | E >         => < AE ~> N  +: []   ~> K | E >        if val?(AE) = false .
- crl [#mul-lft]   : < AE *:  AE' ~> K | E >         => < AE ~> [] *: AE'  ~> K | E >        if val?(AE) = false .
- crl [#mul-rght]  : < N  *:  AE  ~> K | E >         => < AE ~> N  *: []   ~> K | E >        if val?(AE) = false .
- crl [#sub-lft]   : < AE -:  AE' ~> K | E >         => < AE ~> [] -: AE'  ~> K | E >        if val?(AE) = false .
- crl [#sub-rght]  : < N  -:  AE  ~> K | E >         => < AE ~> N  -: []   ~> K | E >        if val?(AE) = false .
- crl [#and]       : < BE &&: BE' ~> K | E >         => < BE ~> [] &&: BE' ~> K | E >        if val?(BE) = false .
- crl [#lt-lft]    : < AE <:  AE' ~> K | E >         => < AE ~> [] <: AE'  ~> K | E >        if val?(AE) = false .
- crl [#lt-rght]   : < N  <:  AE  ~> K | E >         => < AE ~> N  <: []   ~> K | E >        if val?(AE) = false .
- crl [#not]       : < ! BE       ~> K | E >         => < BE ~> ! []       ~> K | E >        if val?(BE) = false .
- crl [#list-conc-left] : < LE ++list LE' ~> K | E >      => < LE ~> [] ++list LE' ~> K | E >     if val?(LE) = false .
- crl [#list-conc-rght] : < LE' ++list LE ~> K | E >      => < LE ~> LE' ++list [] ~> K | E >     if val?(LE) = false .
- crl [#list-first] : < first(LE)         ~> K | E >      => < LE ~> first([])     ~> K | E >     if val?(LE) = false .
- crl [#list-last]  : < last(LE)          ~> K | E >      => < LE ~> last([])      ~> K | E >     if val?(LE) = false .
- crl [#list-empty] : < empty(LE)         ~> K | E >      => < LE ~> empty([])     ~> K | E >     if val?(LE) = false .
+
+    crl [#if]        :
+	< if (BE) S else S' ~> K | E >
+     => < BE ~> if ([]) S else S' ~> K | E > if val?(BE) = false .
+
+    crl [#assign-ae] :
+	< (Q = AE ;) ~> K | E >
+     => < AE ~> Q = [];    ~> K | E >        if val?(AE) = false .
+
+    crl [#assign-le] :
+	< (Q =l LE ;) ~> K | E >
+     => < LE ~> Q =l [];    ~> K | E >        if val?(LE) = false .
+
+    crl [#add-lft]   :
+	< AE +:  AE' ~> K | E >
+     => < AE ~> [] +: AE'  ~> K | E >        if val?(AE) = false .
+
+    crl [#add-rght]  :
+	< N  +:  AE  ~> K | E >
+     => < AE ~> N  +: []   ~> K | E >        if val?(AE) = false .
+
+    crl [#mul-lft]   :
+	< AE *:  AE' ~> K | E >
+     => < AE ~> [] *: AE'  ~> K | E >        if val?(AE) = false .
+
+    crl [#mul-rght]  :
+	< N  *:  AE  ~> K | E >
+     => < AE ~> N  *: []   ~> K | E >        if val?(AE) = false .
+
+    crl [#sub-lft]   :
+	< AE -:  AE' ~> K | E >
+     => < AE ~> [] -: AE'  ~> K | E >        if val?(AE) = false .
+
+    crl [#sub-rght]  :
+	< N  -:  AE  ~> K | E >
+     => < AE ~> N  -: []   ~> K | E >        if val?(AE) = false .
+
+    crl [#and]       :
+	< BE &&: BE' ~> K | E >
+     => < BE ~> [] &&: BE' ~> K | E >        if val?(BE) = false .
+
+    crl [#lt-lft]    :
+	< AE <:  AE' ~> K | E >
+     => < AE ~> [] <: AE'  ~> K | E >        if val?(AE) = false .
+
+    crl [#lt-rght]   :
+	< N  <:  AE  ~> K | E >
+     => < AE ~> N  <: []   ~> K | E >        if val?(AE) = false .
+
+    crl [#not]       :
+	< ! BE       ~> K | E >
+     => < BE ~> ! []       ~> K | E >        if val?(BE) = false .
+
+     crl [#list-conc-left] : < LE ++list LE' ~> K | E >      => < LE ~> [] ++list LE' ~> K | E >
+            if val?(LE) = false .
+
+     crl [#list-conc-rght] : < LE' ++list LE ~> K | E >      => < LE ~> LE' ++list [] ~> K | E >
+            if val?(LE) = false .
+
+     crl [#list-first] : < first(LE)         ~> K | E >      => < LE ~> first([])     ~> K | E >
+            if val?(LE) = false .
+
+     crl [#list-last]  : < last(LE)          ~> K | E >      => < LE ~> last([])      ~> K | E >
+            if val?(LE) = false .
+
+     crl [#list-empty] : < empty(LE)         ~> K | E >      => < LE ~> empty([])     ~> K | E >
+            if val?(LE) = false .
 
  ```
 
@@ -426,10 +475,25 @@ will halt.
 
 ```maude
   --- Assignemnt/lookup rules assume memory locations exist and are unique
-  rl [assign-nat]    : < (Q = N ;) ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> M)) >  => < K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
-  rl [assign-list]   : < (Q =l L ;) ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L')) >  => < K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
-  rl [lookup-nat]    : < Q ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) >          => < N ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
-  rl [lookup-list]   : < Q ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) >          => < L ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
+
+  rl [assign-nat]    :
+        < (Q = N ;) ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> M)) >
+     => < K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
+
+
+  rl [assign-list]   :
+        < (Q =l L ;) ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L')) >
+     => < K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
+
+  rl [lookup-nat]    :
+        < Q ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) >
+     => < N ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
+
+
+  rl [lookup-list]   :
+        < Q ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) >
+     => < L ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
+
   --- Exps
   rl [add]        : < N +: M       ~> K | E >        => < N + M        ~> K | E > .
   rl [mul]        : < N *: M       ~> K | E >        => < N * M        ~> K | E > .
@@ -453,7 +517,10 @@ mod NONSEQ-IMP-SEMANTICS is
   var N : Nat .
   var K : Continuation .
 
- crl [@add-rght] : < AE +: AE' ~> K | E >         => < AE' ~> AE +: []   ~> K | E > if val?(AE) = false .
+ crl [@add-rght] :
+       < AE +: AE' ~> K | E >
+    => < AE' ~> AE +: []   ~> K | E > if val?(AE) = false .
+
   rl [#add-rght] : < N  ~> AE +: []   ~> K | E >  => < AE +: N  ~> K | E > .
 endm
 
