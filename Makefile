@@ -21,6 +21,10 @@ all:
 	@export LUA_PATH="ext/pandoc-tangle/?.lua" && \
 	 pandoc --from markdown --to $(PANDOC_TANGLE) --metadata=code:.maude $< >$@
 
+.build/cs598-report.pdf : imp.md .build/copy-dependencies.timestamp
+	@export LUA_PATH="ext/pandoc-tangle/?.lua" && \
+	 pandoc --from markdown -o $@ $<
+
 .build/t/%.maude.timestamp : t/%.maude .build/imp.maude
 	@mkdir -p .build/t && \
 	 cp $< $(basename $@) && \

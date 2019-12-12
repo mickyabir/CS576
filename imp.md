@@ -387,20 +387,26 @@ cannot be further evaluated, the cooling rules take over as explained below.
 	< ! BE       ~> K | E >
      => < BE ~> ! []       ~> K | E >        if val?(BE) = false .
 
-     crl [#list-conc-left] : < LE ++list LE' ~> K | E >      => < LE ~> [] ++list LE' ~> K | E >
+     crl [#list-conc-left] :
+        < LE ++list LE' ~> K | E >
+     => < LE ~> [] ++list LE' ~> K | E >
             if val?(LE) = false .
 
-     crl [#list-conc-rght] : < LE' ++list LE ~> K | E >      => < LE ~> LE' ++list [] ~> K | E >
-            if val?(LE) = false .
+     crl [#list-conc-rght] :
+        < LE' ++list LE ~> K | E >
+     => < LE ~> LE' ++list [] ~> K | E >    if val?(LE) = false .
 
-     crl [#list-first] : < first(LE)         ~> K | E >      => < LE ~> first([])     ~> K | E >
-            if val?(LE) = false .
+     crl [#list-first] :
+        < first(LE)         ~> K | E >
+     => < LE ~> first([])     ~> K | E >    if val?(LE) = false .
 
-     crl [#list-last]  : < last(LE)          ~> K | E >      => < LE ~> last([])      ~> K | E >
-            if val?(LE) = false .
+     crl [#list-last]  :
+        < last(LE)          ~> K | E >
+     => < LE ~> last([])      ~> K | E >    if val?(LE) = false .
 
-     crl [#list-empty] : < empty(LE)         ~> K | E >      => < LE ~> empty([])     ~> K | E >
-            if val?(LE) = false .
+     crl [#list-empty] :
+        < empty(LE)         ~> K | E >
+     => < LE ~> empty([])     ~> K | E >    if val?(LE) = false .
 
  ```
 
@@ -458,7 +464,9 @@ seen in the example.
   rl [emp-block] : < {}  ~> K | E >                  => < K | E > .
   rl [if-true]   : < if (true) S else S' ~> K | E >  => < S  ~> K | E > .
   rl [if-false]  : < if (false) S else S' ~> K | E > => < S' ~> K | E > .
-  rl [while]     : < while (BE) {S} ~> K | E >       => < if (BE) {S while (BE) {S}} else {} ~> K | E > .
+  rl [while]     :
+     < while (BE) {S} ~> K | E >
+  => < if (BE) {S while (BE) {S}} else {} ~> K | E > .
 
 ```
 
