@@ -52,6 +52,12 @@ fmod FVP-NAT-MULT is
   eq N * (NzN + NzN') = (N * NzN) + (N * NzN') .
 endfm
 
+```
+
+Theory of Lists
+
+```maude
+
 fmod IMP-LIST is
   pr FVP-NAT .
   sort List .
@@ -68,6 +74,12 @@ fmod IMP-LIST is
   op head : List -> Nat                [metadata "13"] .
   op flatten : List -> List            [metadata "284"] .
 
+```
+
+Explain head ctor
+
+```maude
+
   eq head(N $ L) = N                   [variant] .
 
   op tail : List -> List                [metadata "14"] .
@@ -82,6 +94,10 @@ fmod IMP-LIST is
 
   eq head(L) $ tail(L) = L .
 endfm
+
+```
+
+```maude
 
 fmod IMP-DATA is
   pr IMP-LIST .
@@ -102,6 +118,10 @@ fmod IMP-DATA+MUL is
   pr IMP-DATA .
   pr FVP-NAT-MULT .
 endfm
+
+```
+
+```maude
 
 fmod IMP-SYNTAX is
   pr IMP-DATA .
@@ -153,6 +173,10 @@ fmod IMP-SYNTAX+MUL is
   pr IMP-SYNTAX .
   pr IMP-DATA+MUL .
 endfm
+
+```
+
+```maude
 
 fmod IMP-HOLE-SYNTAX is
   pr IMP-SYNTAX .
@@ -217,6 +241,10 @@ mod IMP-FVP-FRAGMENT is
   op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "59"] .
   op done   : -> Continuation [ctor metadata "60"] .
 endm
+
+```
+
+```maude
 
 mod IMP-SEMANTICS is
   pr IMP-FVP-FRAGMENT .
