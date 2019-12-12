@@ -65,21 +65,22 @@ fmod IMP-LIST is
 
   --- operations
 
-  op head : List -> List               [metadata "13"] .
+  op head : List -> Nat                [metadata "13"] .
+  op flatten : List -> List            [metadata "284"] .
 
-  eq head(nil) = nil .
-  eq head(N $ L) = N .
+  eq head(N $ L) = N                   [variant] .
 
   op tail : List -> List                [metadata "14"] .
 
-  eq tail(nil) = nil .
-  eq tail(N $ L) = L .
+  eq tail(nil) = nil [variant] .
+  eq tail(N $ L) = L [variant] .
 
   op isEmpty  : List -> Bool    [metadata "15"] .
 
-  eq isEmpty(nil) = true .
-  eq isEmpty(N $ L) = false .
+  eq isEmpty(nil) = true    [variant] .
+  eq isEmpty(N $ L) = false [variant] .
 
+  eq head(L) $ tail(L) = L .
 endfm
 
 fmod IMP-DATA is
@@ -118,7 +119,7 @@ fmod IMP-SYNTAX is
   op {_}             : Stmt           -> Stmt  [ctor metadata "29"] .
   op {}              :                -> Stmt  [ctor metadata "30"] .
   op _=_;            : Id AExp        -> Stmt  [ctor metadata "31"] .
-  op _=_;            : Id LExp        -> Stmt  [ctor metadata "32"] .
+  op _=l_;           : Id LExp        -> Stmt  [ctor metadata "32"] .
   op _+:_            : AExp AExp      -> AExp  [ctor metadata "33"] .
   op _-:_            : AExp AExp      -> AExp  [ctor metadata "34"] .
   op _*:_            : AExp AExp      -> AExp  [ctor metadata "35"] .
@@ -178,6 +179,7 @@ fmod IMP-HOLE-SYNTAX is
   op if ([]) _ else _ : Stmt Stmt -> !Stmt [ctor metadata "58"] .
   op while ([]) _     : Stmt      -> !Stmt [ctor metadata "59"] .
   op _=[];            : Id        -> !Stmt [ctor metadata "60"] .
+  op _=l[];           : Id        -> !Stmt [ctor metadata "500"] .
 endfm
 
 fmod ENVIRONMENT is
@@ -239,7 +241,7 @@ mod IMP-SEMANTICS is
   --- Heating Rules
  crl [#if]        : < if (BE) S else S' ~> K | E >  => < BE ~> if ([]) S else S' ~> K | E > if val?(BE) = false .
  crl [#assign-ae] : < (Q = AE ;) ~> K | E >         => < AE ~> Q = [];    ~> K | E >        if val?(AE) = false .
- crl [#assign-le] : < (Q = LE ;) ~> K | E >         => < LE ~> Q = [];    ~> K | E >        if val?(LE) = false .
+ crl [#assign-le] : < (Q =l LE ;) ~> K | E >         => < LE ~> Q =l [];    ~> K | E >        if val?(LE) = false .
  crl [#add-lft]   : < AE +:  AE' ~> K | E >         => < AE ~> [] +: AE'  ~> K | E >        if val?(AE) = false .
  crl [#add-rght]  : < N  +:  AE  ~> K | E >         => < AE ~> N  +: []   ~> K | E >        if val?(AE) = false .
  crl [#mul-lft]   : < AE *:  AE' ~> K | E >         => < AE ~> [] *: AE'  ~> K | E >        if val?(AE) = false .
@@ -258,7 +260,7 @@ mod IMP-SEMANTICS is
   --- Cooling Rules
   rl [@if]        : < B  ~> if ([]) S else S' ~> K | E > => < if (B) S else S' ~> K | E > .
   rl [@assign-ae] : < N  ~> Q = [];   ~> K | E >     => < (Q = N ;) ~> K | E > .
-  rl [@assign-le] : < L  ~> Q = [];   ~> K | E >     => < (Q = L ;) ~> K | E > .
+  rl [@assign-le] : < L  ~> Q =l [];   ~> K | E >     => < (Q =l L ;) ~> K | E > .
   rl [@add-lft]   : < N  ~> [] +: AE  ~> K | E >     => < N  +: AE  ~> K | E > .
   rl [@add-rght]  : < M  ~> N  +: []  ~> K | E >     => < N  +: M   ~> K | E > .
   rl [@mul-lft]   : < N  ~> [] *: AE  ~> K | E >     => < N  *: AE  ~> K | E > .
@@ -284,7 +286,7 @@ mod IMP-SEMANTICS is
   rl [while]     : < while (BE) {S} ~> K | E >       => < if (BE) {S while (BE) {S}} else {} ~> K | E > .
   --- Assignemnt/lookup rules assume memory locations exist and are unique
   rl [assign-nat]    : < (Q = N ;) ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> M)) >  => < K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
-  rl [assign-list]   : < (Q = L ;) ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L')) >  => < K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
+  rl [assign-list]   : < (Q =l L ;) ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L')) >  => < K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
   rl [lookup-nat]    : < Q ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) >          => < N ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
   rl [lookup-list]   : < Q ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) >          => < L ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
   --- Exps
