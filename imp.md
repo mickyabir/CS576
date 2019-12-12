@@ -1,7 +1,8 @@
 The IMP-SEMANTICS
 =================
 
-These are the semantics of IMP
+These are the semantics of IMP in Maude, including a built-in List
+datastructure.
 
 ```maude
 
@@ -54,7 +55,13 @@ endfm
 
 ```
 
-Theory of Lists
+The theory of Lists
+-------------------
+
+Here we present the theory of Lists that is incorporated into the IMP language.
+The operations that we use in the language are built on top of list
+concatenation constructor, denoted by `$`, the standard head and tail operations, and
+the `isEmpty` function, which we use to define the semantics of `empty`.
 
 ```maude
 
@@ -69,14 +76,14 @@ fmod IMP-LIST is
   vars N X Y : Nat .
   var L L' : List .
 
-  --- operations
-
   op head : List -> Nat                [metadata "13"] .
-  op flatten : List -> List            [metadata "284"] .
 
 ```
 
-Explain head ctor
+The definition of head is purposefully partial. We define a partial
+function on Lists since `head(nil)` was chosen to be undefined in our
+language, and therefore `head` returns a `Nat`. The `tail` and `isEmpty`
+functions are defined as expected.
 
 ```maude
 
@@ -96,6 +103,10 @@ Explain head ctor
 endfm
 
 ```
+
+This module defines the variables of IMP, which are constructors of sort `Id` in
+our theory. We also have the ability to incorporate more variables into our
+language than the ones defined using the `,` constructor.
 
 ```maude
 
@@ -120,6 +131,13 @@ fmod IMP-DATA+MUL is
 endfm
 
 ```
+
+Here we define the syntax of IMP. We provide a simple yet expressive imperative
+language syntax, including the `if - else` conditional, `while` loops, variable
+assignments, basic arithmetic operations, and basic boolean operations. We also
+added list expressions consisting of list assignments, list concatenation, `first`,
+`last`, and `empty`. These correspond to the `head`, `tail`, and `isEmpty`
+operations in our theory of lists.
 
 ```maude
 
@@ -150,11 +168,8 @@ fmod IMP-SYNTAX is
   op first (_)       : LExp           -> LExp  [ctor metadata "40"] .
   op last  (_)       : LExp           -> LExp  [ctor metadata "41"] .
   op empty (_)       : LExp           -> BExp  [ctor metadata "42"] .
-  --- defined
   op val?            : Exp            -> Bool [metadata "43"] .
-  ---
   var A A' : AExp . var B B' : BExp . var L L' : LExp .
-  ---
   eq val?(Q:Id)        = false [variant] .
   eq val?(A +: A')     = false [variant] .
   eq val?(A *: A')     = false [variant] .
@@ -175,6 +190,9 @@ fmod IMP-SYNTAX+MUL is
 endfm
 
 ```
+
+The following module defines contexts for our semantic rules; this will be
+covered in more detail in the semantics module.
 
 ```maude
 
@@ -205,6 +223,19 @@ fmod IMP-HOLE-SYNTAX is
   op _=[];            : Id        -> !Stmt [ctor metadata "60"] .
   op _=l[];           : Id        -> !Stmt [ctor metadata "500"] .
 endfm
+
+```
+
+The environment represents the state of an IMP program.
+It is essentially a mapping between identifiers used in the program to
+their corresponding typed value. This is achieved by having two
+sub-environments. The first, referred to as `TEnv`, maps identifiers to types.
+The second, referred to as `VEnv`, maps identifiers to values. The semantic
+rules enforce that type safety is maintained, i.e., the value in `VEnv`
+belongs to the type specified in `TEnv` associated with an identifier.
+
+
+```maude
 
 fmod ENVIRONMENT is
   pr IMP-DATA .
@@ -244,6 +275,12 @@ endm
 
 ```
 
+The Semantics of IMP
+====================
+
+The semantics are in context-redex style, which
+will be explained below.
+
 ```maude
 
 mod IMP-SEMANTICS is
@@ -265,6 +302,36 @@ mod IMP-SEMANTICS is
   var B : Bool .
   var L L' : List .
 
+```
+
+Heating Rules
+-------------
+
+Heating rules are special rules of the form
+
+```
+
+ A * B => A ~> [] * B
+
+ A + B => A ~> [] + B
+```
+
+Here, the two heating rules for `*` and `+` pull out the first subexpression,
+symbolically referred to as `A`, from the full expression and marks it ready for
+further evaluation. The following is an example for the expression `(X + Y) *
+Z)`:
+
+```
+
+(X + Y) * Z => X + Y ~> [] * Z => X ~> [] + Y ~> [] * Z
+
+```
+
+After a sequence of subexpressions have been heated and evaluated until they
+cannot be further evaluated, the cooling rules take over as explained below.
+
+
+```maude
   --- Rules
   --- Heating Rules
  crl [#if]        : < if (BE) S else S' ~> K | E >  => < BE ~> if ([]) S else S' ~> K | E > if val?(BE) = false .
@@ -285,6 +352,37 @@ mod IMP-SEMANTICS is
  crl [#list-first] : < first(LE)         ~> K | E >      => < LE ~> first([])     ~> K | E >     if val?(LE) = false .
  crl [#list-last]  : < last(LE)          ~> K | E >      => < LE ~> last([])      ~> K | E >     if val?(LE) = false .
  crl [#list-empty] : < empty(LE)         ~> K | E >      => < LE ~> empty([])     ~> K | E >     if val?(LE) = false .
+
+ ```
+
+Cooling Rules
+-------------
+
+Cooling rules are of the form
+
+```
+
+A ~> [] + B => A + B
+A ~> [] * B => A + B
+
+```
+
+The cooling rules apply when a subexpression has cannot be heated any further,
+as in the following example:
+
+```
+
+1 ~> [] + 2 ~> [] * 3 => 1 + 2 ~> [] * 3 => 3 ~> [] * 3 ~> 3 * 3 => 9
+
+```
+
+Cooling rules are useful for evaluation, as the most heated expression is
+evaluated and cooled back into its parent expression for further evaluation as
+seen in the example.
+
+
+```maude
+
   --- Cooling Rules
   rl [@if]        : < B  ~> if ([]) S else S' ~> K | E > => < if (B) S else S' ~> K | E > .
   rl [@assign-ae] : < N  ~> Q = [];   ~> K | E >     => < (Q = N ;) ~> K | E > .
@@ -312,6 +410,21 @@ mod IMP-SEMANTICS is
   rl [if-true]   : < if (true) S else S' ~> K | E >  => < S  ~> K | E > .
   rl [if-false]  : < if (false) S else S' ~> K | E > => < S' ~> K | E > .
   rl [while]     : < while (BE) {S} ~> K | E >       => < if (BE) {S while (BE) {S}} else {} ~> K | E > .
+
+```
+
+Assignment and Lookup Rules
+---------------------------
+
+To enforce type saftey, the following four rules provide the semantics of
+variable assignment and lookup. The interesting point here is that for variable
+lookup, the sort `Id` is used to represent two types. However, we can return a
+value of the correct type by checking that the type associated with the
+identifier in the `TEnv` is the same as the type of the value in the `VEnv`.
+Otherwise we are in an inconsisent state, no rules will apply, and execution
+will halt.
+
+```maude
   --- Assignemnt/lookup rules assume memory locations exist and are unique
   rl [assign-nat]    : < (Q = N ;) ~> K | (TE * (Q |-> TNat)) & (VE * (Q |-> M)) >  => < K | (TE * (Q |-> TNat)) & (VE * (Q |-> N)) > .
   rl [assign-list]   : < (Q =l L ;) ~> K | (TE * (Q |-> TList)) & (VE * (Q |-> L')) >  => < K | (TE * (Q |-> TList)) & (VE * (Q |-> L)) > .
