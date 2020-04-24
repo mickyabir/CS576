@@ -1,4 +1,4 @@
-load ../imp.maude
+load ../impl.maude
 
 fmod FIB is
   pr FVP-NAT .
@@ -12,14 +12,14 @@ fmod FIB is
   eq fib(N + 1 + 1) = fib(N + 1) + fib(N) .
 endfm
 
-mod FIB+IMP-SYNTAX+MUL is
+mod FIB+IMPL-SYNTAX+MUL is
   pr FIB .
-  pr IMP-SYNTAX+MUL .
+  pr IMPL-SYNTAX+MUL .
 endm
 
-mod FIB+IMP-SEMANTICS is
+mod FIB+IMPL-SEMANTICS is
   pr FIB .
-  pr IMP-SEMANTICS .
+  pr IMPL-SEMANTICS .
 endm
 
 set show advisories off .
@@ -27,10 +27,10 @@ set print attribute on .
 
 load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
-(select FIB+IMP-SEMANTICS  .)
-(use tool conrew for validity          on FIB+IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(select FIB+IMPL-SEMANTICS  .)
+(use tool conrew for validity          on FIB+IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
-(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (X:Nat) U (X':Nat) U (I:Nat) U (I':Nat) U (J:Nat) U (J':Nat) U (A:Nat) U (A':Nat) U (B:Nat) U (B':Nat) .)
 
@@ -41,33 +41,33 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
 
 (start-proof .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-(auto .)
-quit .
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---quit .
