@@ -1,0 +1,21 @@
+load ../imp.maude
+
+set show advisories off .
+set print attribute on .
+
+load ../ext/maude-private/contrib/tools/rltool/rltool.maude
+
+(select IMP-SEMANTICS  .)
+(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(def-term-set (< done | E:Env >) | true .)
+(declare-vars (X:Nat) U (I:Nat) U (A:Nat) U (I':Nat) U (A':Nat) U (T:Type) .)
+
+(add-goal loop : (< while (i <: x) {a = a +: 1 ; i = i +: 1 ;} ~> done
+                    | (x |-> T  *  i |-> T * a |-> T)
+                    & (x |-> X  *  i |-> I * a |-> A) >) | (A) = (I) =>
+                 (< done
+                    | (x |-> T * i |-> T  * a |-> T)
+                    & (x |-> X * i |-> I' * a |-> A') >) | (I') = (X) /\ (A') = (I')) .)
+(start-proof .)
