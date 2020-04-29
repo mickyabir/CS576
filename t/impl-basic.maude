@@ -1,0 +1,7 @@
+load ../impl.maude
+
+select IMPL-SEMANTICS .
+
+rew (< (if (1 <= 1) { a = 1 ; } else {}) ~> done | (a |-> TNat) & (a |-> 0) > ) .
+rew (< (if ((1 + 1) <= 1) { a = 1 ; } else { a = 1 + 1 ; }) ~> done | (a |-> TNat) & (a |-> 0) > ) .
+quit .

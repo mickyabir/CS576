@@ -1,0 +1,48 @@
+load ../impl.maude
+
+load ../ext/maude-private/contrib/tools/rltool/rltool.maude
+
+(select IMPL-SEMANTICS  .)
+(use tool conrew for validity          on IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
+(def-term-set (< done | E:Env >) | true .)
+(declare-vars (X:List) U (Y:List) U (X':List) U (Y':List) U (Z:List) .)
+
+(add-goal move-list : (< while (! empty(x)) { y =l first(x) $: y ; x =l rest(x) ;} ~> done
+                    | (x |-> TList  *  y |-> TList * z |-> TList)
+                    & (x |-> X  *  y |-> Y * z |-> Z) >) | (Z) = (Y $ X) =>
+                 (< done
+                    | (x |-> TList * y |-> TList  * z |-> TList)
+                    & (x |-> X' * i |-> Y' * z |-> Z) >) | (Z) = (Y) /\ (isEmpty(X)) = (true) .)
+
+(start-proof .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)

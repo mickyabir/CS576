@@ -10,24 +10,24 @@ fmod FVP-NAT is
   op 0 : -> Nat   [ctor metadata "2"] .
   op 1 : -> NzNat [ctor metadata "3"] .
   op _+_ : Nat Nat   ->   Nat [ctor assoc comm id: 0 metadata "4"] .
-  op _+_ : NzNat Nat -> NzNat [ctor ditto            metadata "4"] .
+  op _+_ : NzNat Nat -> NzNat [ctor ditto            metadata "5"] .
 
   var N M : Nat .
   var Z   : NzNat .
 
-  op _monus_ : Nat Nat -> Nat [metadata "5"] .
+  op _monus_ : Nat Nat -> Nat [metadata "6"] .
   eq  N      monus (N + M) = 0 [variant] .
   eq (N + Z) monus  N      = Z [variant] .
 
-  op _<=_ : Nat Nat -> Bool [metadata "6"] .
+  op _<=_ : Nat Nat -> Bool [metadata "7"] .
   eq N     <= N + M = true  [variant] .
   eq N + Z <= N     = false [variant] .
 
-  op _<_ : Nat Nat -> Bool [metadata "7"] .
+  op _<_ : Nat Nat -> Bool [metadata "8"] .
   eq N     < N + Z = true  [variant] .
   eq N + M < N     = false [variant] .
 
-  op sd : Nat Nat -> Nat [comm metadata "8"] .
+  op sd : Nat Nat -> Nat [comm metadata "9"] .
   eq sd(N + Z, N    ) = Z [variant] .
   eq sd(N    , N + M) = M [variant] .
 endfm
@@ -37,7 +37,7 @@ fmod FVP-NAT-MULT is
 
   var N : Nat . var NzN NzN' : NzNat .
 
-  op _*_ : Nat Nat -> Nat [assoc comm metadata "9"] .
+  op _*_ : Nat Nat -> Nat [assoc comm metadata "10"] .
   ---------------------------------------------------
   eq N * 0 =  0 [variant] .
   eq N * 1 =  N [variant] .
@@ -50,42 +50,52 @@ fmod IMPL-LIST is
   sort List .
   subsort Nat < List .
 
-  op nil      :           -> List    [ctor metadata "10"] .
-  op _$_      : List List -> List    [ctor id: nil assoc metadata "11"] .
+  op nil      :           -> List    [ctor metadata "11"] .
+  op _$_      : List List -> List    [ctor id: nil assoc metadata "12"] .
 
   vars N X Y : Nat .
   var L L' : List .
 
-  op head : List -> Nat                [metadata "13"] .
-
-  eq head(N $ L) = N                   [variant] .
+  op head : List -> List                [metadata "13"] .
+  eq head(nil) = nil                    [variant] .
+  eq head(N $ L) = N                    [variant] .
 
   op tail : List -> List                [metadata "14"] .
-
   eq tail(nil) = nil [variant] .
   eq tail(N $ L) = L [variant] .
 
-  op isEmpty  : List -> Bool    [metadata "15"] .
+  eq head(N $ L) $ tail(N $ L) = N $ L [variant] .
 
+  op final : List -> List                [metadata "15"] .
+  eq final(nil) = nil                    [variant] .
+  eq final(N) = N                        [variant] .
+  eq final(N $ L) = final(L)             [variant] .
+
+  op prefix : List -> List               [metadata "16"] .
+  eq prefix(nil) = nil                   [variant] .
+  eq prefix(N) = nil                     [variant] .
+  eq prefix(N $ L) = N $ prefix(L)       [variant] .
+
+  eq prefix(N $ L) $ final(N $ L) = N $ L [variant] .
+
+  op isEmpty : List -> Bool    [metadata "17"] .
   eq isEmpty(nil) = true    [variant] .
   eq isEmpty(N $ L) = false [variant] .
-
-  eq head(L) $ tail(L) = L .
 endfm
 
 fmod IMPL-DATA is
   pr IMPL-LIST .
   sort Id .
-  op a  :    -> Id [ctor metadata "16"] .
-  op b  :    -> Id [ctor metadata "17"] .
-  op c  :    -> Id [ctor metadata "18"] .
-  op i  :    -> Id [ctor metadata "19"] .
-  op j  :    -> Id [ctor metadata "20"] .
-  op k  :    -> Id [ctor metadata "21"] .
-  op x  :    -> Id [ctor metadata "22"] .
-  op y  :    -> Id [ctor metadata "23"] .
-  op z  :    -> Id [ctor metadata "24"] .
-  op _, : Id -> Id [ctor metadata "25"] .
+  op a  :    -> Id [ctor metadata "18"] .
+  op b  :    -> Id [ctor metadata "19"] .
+  op c  :    -> Id [ctor metadata "20"] .
+  op i  :    -> Id [ctor metadata "21"] .
+  op j  :    -> Id [ctor metadata "22"] .
+  op k  :    -> Id [ctor metadata "23"] .
+  op x  :    -> Id [ctor metadata "24"] .
+  op y  :    -> Id [ctor metadata "25"] .
+  op z  :    -> Id [ctor metadata "26"] .
+  op _, : Id -> Id [ctor metadata "27"] .
 endfm
 
 fmod IMPL-DATA+MUL is
@@ -103,24 +113,27 @@ fmod IMPL-SYNTAX is
   subsort Bool Nat List < Value < Exp .
 
   --- ctors
-  op __              : Stmt Stmt      -> Stmt  [ctor prec 42 gather (E e) metadata "26"] .
-  op if (_) _ else _ : BExp Stmt Stmt -> Stmt  [ctor metadata "27" ] .
-  op while (_) _     : BExp Stmt      -> Stmt  [ctor metadata "28"] .
-  op {_}             : Stmt           -> Stmt  [ctor metadata "29"] .
-  op {}              :                -> Stmt  [ctor metadata "30"] .
-  op _=_;            : Id AExp        -> Stmt  [ctor metadata "31"] .
-  op _=l_;           : Id LExp        -> Stmt  [ctor metadata "32"] .
-  op _+:_            : AExp AExp      -> AExp  [ctor metadata "33"] .
-  op _-:_            : AExp AExp      -> AExp  [ctor metadata "34"] .
-  op _*:_            : AExp AExp      -> AExp  [ctor metadata "35"] .
-  op !_              : BExp           -> BExp  [ctor metadata "36"] .
-  op _<:_            : AExp AExp      -> BExp  [ctor metadata "37"] .
-  op _&&:_           : BExp BExp      -> BExp  [ctor metadata "38"] .
-  op _++list_        : LExp LExp      -> LExp  [ctor metadata "39"] .
-  op first (_)       : LExp           -> LExp  [ctor metadata "40"] .
-  op last  (_)       : LExp           -> LExp  [ctor metadata "41"] .
-  op empty (_)       : LExp           -> BExp  [ctor metadata "42"] .
-  op val?            : Exp            -> Bool [metadata "43"] .
+  op __              : Stmt Stmt      -> Stmt  [ctor prec 42 gather (E e) metadata "28"] .
+  op if (_) _ else _ : BExp Stmt Stmt -> Stmt  [ctor metadata "29" ] .
+  op while (_) _     : BExp Stmt      -> Stmt  [ctor metadata "30"] .
+  op {_}             : Stmt           -> Stmt  [ctor metadata "31"] .
+  op {}              :                -> Stmt  [ctor metadata "32"] .
+  op _=_;            : Id AExp        -> Stmt  [ctor metadata "33"] .
+  op _=l_;           : Id LExp        -> Stmt  [ctor metadata "34"] .
+  op _+:_            : AExp AExp      -> AExp  [ctor metadata "35"] .
+  op _-:_            : AExp AExp      -> AExp  [ctor metadata "36"] .
+  op _*:_            : AExp AExp      -> AExp  [ctor metadata "37"] .
+  op !_              : BExp           -> BExp  [ctor metadata "38"] .
+  op _<:_            : AExp AExp      -> BExp  [ctor metadata "39"] .
+  op _<=:_           : AExp AExp      -> BExp [ctor metadata "40"] .
+  op _&&:_           : BExp BExp      -> BExp  [ctor metadata "41"] .
+  op _$:_            : LExp LExp      -> LExp  [ctor metadata "42"] .
+  op first (_)       : LExp           -> LExp  [ctor metadata "43"] .
+  op rest  (_)       : LExp           -> LExp  [ctor metadata "44"] .
+  op last  (_)       : LExp           -> LExp  [ctor metadata "45"] .
+  op prior (_)       : LExp           -> LExp  [ctor metadata "46"] .
+  op empty (_)       : LExp           -> BExp  [ctor metadata "47"] .
+  op val?            : Exp            -> Bool [metadata "48"] .
   var A A' : AExp . var B B' : BExp . var L L' : LExp .
   eq val?(Q:Id)        = false [variant] .
   eq val?(A +: A')     = false [variant] .
@@ -128,10 +141,13 @@ fmod IMPL-SYNTAX is
   eq val?(A -: A')     = false [variant] .
   eq val?(! B)         = false [variant] .
   eq val?(A <: A')     = false [variant] .
+  eq val?(A <=: A')    = false [variant] .
   eq val?(B &&: B')    = false [variant] .
-  eq val?(L ++list L') = false [variant] .
+  eq val?(L $: L')     = false [variant] .
   eq val?(first(L))    = false [variant] .
+  eq val?(rest(L))     = false [variant] .
   eq val?(last(L))     = false [variant] .
+  eq val?(prior(L))    = false [variant] .
   eq val?(empty(L))    = false [variant] .
   eq val?(V:Value)     = true  [variant] .
 endfm
@@ -145,28 +161,32 @@ fmod IMPL-HOLE-SYNTAX is
   pr IMPL-SYNTAX .
   sort !AExp !BExp !LExp !Stmt .
   --- !AExp
-  op []+:_  : AExp -> !AExp [ctor metadata "44"] .
-  op _+:[]  : AExp -> !AExp [ctor metadata "45"] .
-  op []*:_  : AExp -> !AExp [ctor metadata "46"] .
-  op _*:[]  : AExp -> !AExp [ctor metadata "47"] .
-  op []-:_  : AExp -> !AExp [ctor metadata "48"] .
-  op _-:[]  : AExp -> !AExp [ctor metadata "49"] .
+  op []+:_  : AExp -> !AExp [ctor metadata "49"] .
+  op _+:[]  : AExp -> !AExp [ctor metadata "50"] .
+  op []*:_  : AExp -> !AExp [ctor metadata "51"] .
+  op _*:[]  : AExp -> !AExp [ctor metadata "52"] .
+  op []-:_  : AExp -> !AExp [ctor metadata "53"] .
+  op _-:[]  : AExp -> !AExp [ctor metadata "54"] .
   --- !BExp
-  op ![]    : -> !BExp         [ctor metadata "50"] .
-  op []<:_  : AExp -> !BExp    [ctor metadata "51"] .
-  op _<:[]  : Nat -> !BExp     [ctor metadata "52"] .
-  op []&&:_ : BExp -> !BExp    [ctor metadata "53"] .
-  op empty([]) : -> !BExp      [ctor metadata "53"] .
+  op ![]    : -> !BExp         [ctor metadata "55"] .
+  op []<:_  : AExp -> !BExp    [ctor metadata "56"] .
+  op _<:[]  : Nat -> !BExp     [ctor metadata "57"] .
+  op []<=:_  : AExp -> !BExp    [ctor metadata "58"] .
+  op _<=:[]  : Nat -> !BExp     [ctor metadata "59"] .
+  op []&&:_ : BExp -> !BExp    [ctor metadata "60"] .
+  op empty([]) : -> !BExp      [ctor metadata "61"] .
   --- !LExp
-  op []++list_ : LExp -> !LExp    [ctor metadata "54"] .
-  op _++list[] : LExp -> !LExp    [ctor metadata "55"] .
-  op first([]) : -> !LExp    [ctor metadata "56"] .
-  op last([])  : -> !LExp    [ctor metadata "57"] .
+  op []$:_ : LExp -> !LExp    [ctor metadata "62"] .
+  op _$:[] : LExp -> !LExp    [ctor metadata "63"] .
+  op first([]) : -> !LExp    [ctor metadata "64"] .
+  op rest([])  : -> !LExp    [ctor metadata "65"] .
+  op last([])  : -> !LExp    [ctor metadata "66"] .
+  op prior([]) : -> !LExp    [ctor metadata "67"] .
   --- !Stmt
-  op if ([]) _ else _ : Stmt Stmt -> !Stmt [ctor metadata "58"] .
-  op while ([]) _     : Stmt      -> !Stmt [ctor metadata "59"] .
-  op _=[];            : Id        -> !Stmt [ctor metadata "60"] .
-  op _=l[];           : Id        -> !Stmt [ctor metadata "500"] .
+  op if ([]) _ else _ : Stmt Stmt -> !Stmt [ctor metadata "68"] .
+  op while ([]) _     : Stmt      -> !Stmt [ctor metadata "69"] .
+  op _=[];            : Id        -> !Stmt [ctor metadata "70"] .
+  op _=l[];           : Id        -> !Stmt [ctor metadata "71"] .
 endfm
 
 fmod ENVIRONMENT is
@@ -175,20 +195,20 @@ fmod ENVIRONMENT is
   sort VEnv TEnv WrappedEnv .
   sort Type .
   --- Type
-  op TNat   : -> Type [ctor metadata "46"] .
-  op TList  : -> Type [ctor metadata "47"] .
+  op TNat   : -> Type [ctor metadata "47"] .
+  op TList  : -> Type [ctor metadata "48"] .
 
   --- Env
-  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "48"] .
-  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "49"] .
-  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "50"] .
-  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "51"] .
-  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "52"] .
-  op _&_    : TEnv VEnv -> Env [ctor metadata "53"] .
-  op mt     : -> Env [ctor metadata "54"] .
-  op mtVE   : -> VEnv [ctor metadata "55"] .
-  op mtTE   : -> TEnv [ctor metadata "56"] .
-  op {_}    : Env -> WrappedEnv [ctor metadata "57"] .
+  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "49"] .
+  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "50"] .
+  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "51"] .
+  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "52"] .
+  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "53"] .
+  op _&_    : TEnv VEnv -> Env [ctor metadata "54"] .
+  op mt     : -> Env [ctor metadata "55"] .
+  op mtVE   : -> VEnv [ctor metadata "56"] .
+  op mtTE   : -> TEnv [ctor metadata "57"] .
+  op {_}    : Env -> WrappedEnv [ctor metadata "58"] .
 endfm
 
 mod IMPL-FVP-FRAGMENT is
@@ -199,10 +219,10 @@ mod IMPL-FVP-FRAGMENT is
   subsort Stmt Exp !LExp !AExp !BExp !Stmt < Redex .
 
   --- RedContext
-  op <_|_>  : Continuation Env -> RedContext [ctor metadata "58"] .
+  op <_|_>  : Continuation Env -> RedContext [ctor metadata "59"] .
   --- Continuation
-  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "59"] .
-  op done   : -> Continuation [ctor metadata "60"] .
+  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "60"] .
+  op done   : -> Continuation [ctor metadata "61"] .
 endm
 
 mod IMPL-SEMANTICS is
@@ -275,26 +295,42 @@ mod IMPL-SEMANTICS is
 	< N  <:  AE  ~> K | E >
      => < AE ~> N  <: []   ~> K | E >        if val?(AE) = false .
 
+    crl [#lte-lft]    :
+	< AE <=:  AE' ~> K | E >
+     => < AE ~> [] <=: AE'  ~> K | E >        if val?(AE) = false .
+
+    crl [#lte-rght]   :
+	< N  <=:  AE  ~> K | E >
+     => < AE ~> N  <=: []   ~> K | E >        if val?(AE) = false .
+
     crl [#not]       :
 	< ! BE       ~> K | E >
      => < BE ~> ! []       ~> K | E >        if val?(BE) = false .
 
      crl [#list-conc-left] :
-        < LE ++list LE' ~> K | E >
-     => < LE ~> [] ++list LE' ~> K | E >
+        < LE $: LE' ~> K | E >
+     => < LE ~> [] $: LE' ~> K | E >
             if val?(LE) = false .
 
      crl [#list-conc-rght] :
-        < LE' ++list LE ~> K | E >
-     => < LE ~> LE' ++list [] ~> K | E >    if val?(LE) = false .
+        < LE' $: LE ~> K | E >
+     => < LE ~> LE' $: [] ~> K | E >    if val?(LE) = false .
 
      crl [#list-first] :
         < first(LE)         ~> K | E >
      => < LE ~> first([])     ~> K | E >    if val?(LE) = false .
 
+     crl [#list-rest] :
+        < rest(LE)         ~> K | E >
+     => < LE ~> rest([])     ~> K | E >    if val?(LE) = false .
+
      crl [#list-last]  :
         < last(LE)          ~> K | E >
      => < LE ~> last([])      ~> K | E >    if val?(LE) = false .
+
+     crl [#list-prior]  :
+        < prior(LE)          ~> K | E >
+     => < LE ~> prior([])      ~> K | E >    if val?(LE) = false .
 
      crl [#list-empty] :
         < empty(LE)         ~> K | E >
@@ -313,11 +349,15 @@ mod IMPL-SEMANTICS is
   rl [@and]       : < B  ~> [] &&: BE ~> K | E >     => < B &&: BE  ~> K | E > .
   rl [@lt-lft]    : < N  ~> [] <: AE  ~> K | E >     => < N <: AE   ~> K | E > .
   rl [@lt-rght]   : < M ~> N  <: []   ~> K | E >     => < N <: M    ~> K | E > .
+  rl [@lte-lft]    : < N  ~> [] <=: AE  ~> K | E >     => < N <=: AE   ~> K | E > .
+  rl [@lte-rght]   : < M ~> N  <=: []   ~> K | E >     => < N <=: M    ~> K | E > .
   rl [@not]       : < B  ~> ! []      ~> K | E >     => < ! B       ~> K | E > .
-  rl [@list-conc-left]  : < L  ~> [] ++list LE  ~> K | E >  => < L ++list LE ~> K | E > .
-  rl [@list-conc-rght]  : < L  ~> LE ++list []  ~> K | E >  => < LE ++list L ~> K | E > .
+  rl [@list-conc-left]  : < L  ~> [] $: LE  ~> K | E >  => < L $: LE ~> K | E > .
+  rl [@list-conc-rght]  : < L  ~> LE $: []  ~> K | E >  => < LE $: L ~> K | E > .
   rl [@list-first]      : < L  ~> first([])     ~> K | E >  => < first(L)    ~> K | E > .
+  rl [@list-rest]      : < L  ~> rest([])     ~> K | E >  => < rest(L)    ~> K | E > .
   rl [@list-last]       : < L  ~> last([])      ~> K | E >  => < last(L)     ~> K | E > .
+  rl [@list-prior]       : < L  ~> prior([])      ~> K | E >  => < prior(L)     ~> K | E > .
   rl [@list-empty]      : < L  ~> empty([])     ~> K | E >  => < empty(L)    ~> K | E > .
   --- Semantic Rules
   --- Stmts
@@ -355,13 +395,16 @@ mod IMPL-SEMANTICS is
   rl [mul]        : < N *: M       ~> K | E >        => < N * M        ~> K | E > .
   rl [sub]        : < N -: M       ~> K | E >        => < sd(N,M)      ~> K | E > .
   rl [lt]         : < N <: M       ~> K | E >        => < N < M        ~> K | E > .
+  rl [lte]        : < N <=: M      ~> K | E >        => < N <= M       ~> K | E > .
   rl [not-1]      : < ! true       ~> K | E >        => < false        ~> K | E > .
   rl [not-2]      : < ! false      ~> K | E >        => < true         ~> K | E > .
   rl [and-true]   : < true  &&: BE ~> K | E >        => < BE           ~> K | E > .
   rl [and-false]  : < false &&: BE ~> K | E >        => < false        ~> K | E > .
-  rl [list-conc]  : < L ++list L'  ~> K | E >        => < L $ L'       ~> K | E > .
+  rl [list-conc]  : < L $: L'      ~> K | E >        => < L $ L'       ~> K | E > .
   rl [list-first] : < first(L)     ~> K | E >        => < head(L)      ~> K | E > .
-  rl [list-last]  : < last(L)      ~> K | E >        => < tail(L)      ~> K | E > .
+  rl [list-rest]  : < rest(L)      ~> K | E >        => < tail(L)      ~> K | E > .
+  rl [list-last]  : < last(L)      ~> K | E >        => < final(L)     ~> K | E > .
+  rl [list-prior] : < prior(L)     ~> K | E >        => < prefix(L)      ~> K | E > .
   rl [list-empty] : < empty(L)     ~> K | E >        => < isEmpty(L)   ~> K | E > .
 endm
 

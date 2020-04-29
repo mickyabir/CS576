@@ -1,0 +1,80 @@
+load ../impl.maude
+
+fmod LENGTH is
+  pr IMPL-LIST .
+
+  var L : List . var N : Nat .
+
+  op length : List -> List         [metadata "80"] .
+  eq length(nil) = 0               [variant] .
+  eq length(N $ L) = 1 + length(L) [variant] .
+endfm
+
+mod LENGTH+IMPL-SYNTAX+MUL is
+  pr LENGTH .
+  pr IMPL-SYNTAX+MUL .
+endm
+
+mod LENGTH+IMPL-SEMANTICS is
+  pr LENGTH .
+  pr IMPL-SEMANTICS .
+endm
+
+set show advisories off .
+set print attribute on .
+
+load ../ext/maude-private/contrib/tools/rltool/rltool.maude
+
+(select LENGTH+IMPL-SEMANTICS  .)
+(use tool conrew for validity          on LENGTH+IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
+(def-term-set (< done | E:Env >) | true .)
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) .)
+
+(add-goal move-list : (< while (! empty(x)) { y =l first(x) $: y ; x =l rest(x) ;} ~> done
+                    | (x |-> TList  *  y |-> TList * z |-> TList)
+                    & (x |-> X  *  y |-> Y * z |-> Z) >) | (length(Z)) = (length(Y) + length(X)) =>
+                 (< done
+                    | (x |-> TList * y |-> TList  * z |-> TList)
+                    & (x |-> X' * i |-> Y' * z |-> Z) >) | (length(Z)) = (length(Y') + length(X')) /\ (isEmpty(X)) = (true) .)
+
+
+(start-proof .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---(auto .)
+---
+---quit .
