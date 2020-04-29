@@ -72,7 +72,7 @@ fmod IMP-LIST is
   eq isEmpty(nil) = true    [variant] .
   eq isEmpty(N $ L) = false [variant] .
 
-  eq head(N $ L) $ tail(N $ L) = L .
+  eq head(L) $ tail(L) = L .
 endfm
 
 
