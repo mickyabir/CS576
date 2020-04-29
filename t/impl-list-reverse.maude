@@ -1,24 +1,7 @@
 load ../impl.maude
 
-fmod LIST-EQUAL is
-  pr IMPL-LIST .
-  op _andbool_ : Bool Bool -> Bool [comm assoc metadata "78"] .
-  op _==list_  : List List -> Bool [comm metadata "79"] .
-
-  var A : Bool .
-
-  eq false andbool A = false .
-  eq true andbool A = A .
-
-  var L L' : List . var M N : Nat .
-
-  eq nil ==list nil = true .
-  eq (M $ L) ==list nil = false .
-  eq (M $ L) ==list (N $ L') = (L ==list L') andbool (M <= N) andbool (N <= M) .
-endfm
-
 fmod REV is
-  pr LIST-EQUAL .
+  pr IMPL-LIST .
 
   op rev : List -> List [metadata "80"] .
 
@@ -48,14 +31,14 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) .)
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) .)
 
-(add-goal loop : (<  while (! empty(x)) { y =l y $: first(x) ; x =l rest(x) ; } ~> done
+(add-goal loop : (<  while (! empty(x)) { y =l first(x) $: y ; x =l rest(x) ; } ~> done
                     | (x |-> TList * y |-> TList * z |-> TList)
                     & (x |-> X * y |-> Y * z |-> Z) >) | (Z) = (rev(Y) $ X) =>
                  (< done
                     | (x |-> TList * y |-> TList * z |-> TList)
-                    & (x |-> X' * y |-> Y' * z |-> Z') >) | (Z') = (rev(Y')) /\ (Z) = (Z') .)
+                    & (x |-> X' * y |-> Y' * z |-> Z) >) | (Z) = (rev(Y')) .)
 
 
 (start-proof .)
