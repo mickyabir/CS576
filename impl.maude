@@ -10,7 +10,7 @@ fmod FVP-NAT is
   op 0 : -> Nat   [ctor metadata "2"] .
   op 1 : -> NzNat [ctor metadata "3"] .
   op _+_ : Nat Nat   ->   Nat [ctor assoc comm id: 0 metadata "4"] .
-  op _+_ : NzNat Nat -> NzNat [ctor ditto            metadata "5"] .
+  op _+_ : NzNat Nat -> NzNat [ctor ditto            metadata "4"] .
 
   var N M : Nat .
   var Z   : NzNat .
