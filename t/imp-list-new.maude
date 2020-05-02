@@ -17,7 +17,7 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
                     & (x |-> X * y |-> Y * z |-> Z) >) | (Z) = (Y $ X)  =>
                  (< K
                     | (x |-> TList * y |-> TList * z |-> TList)
-                    & (x |-> X' * y |-> Y' * z |-> Z') >) | (Z) = (Z') /\ (Z') = (Y' $ X') .)
+                    & (x |-> X' * y |-> Y' * z |-> Z') >) | (Z) = (Z') /\ (Z') = (Y' $ X') /\ (isEmpty(X')) = (true) .)
 
 
 (start-proof .)
