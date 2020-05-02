@@ -181,20 +181,20 @@ fmod ENVIRONMENT is
   sort VEnv TEnv WrappedEnv .
   sort Type .
   --- Type
-  op TNat   : -> Type [ctor metadata "46"] .
-  op TList  : -> Type [ctor metadata "47"] .
+  op TNat   : -> Type [ctor metadata "460"] .
+  op TList  : -> Type [ctor metadata "470"] .
 
   --- Env
-  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "48"] .
-  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "49"] .
-  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "50"] .
-  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "51"] .
-  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "52"] .
-  op _&_    : TEnv VEnv -> Env [ctor metadata "53"] .
-  op mt     : -> Env [ctor metadata "54"] .
-  op mtVE   : -> VEnv [ctor metadata "55"] .
-  op mtTE   : -> TEnv [ctor metadata "56"] .
-  op {_}    : Env -> WrappedEnv [ctor metadata "57"] .
+  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "480"] .
+  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "490"] .
+  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "501"] .
+  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "510"] .
+  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "520"] .
+  op _&_    : TEnv VEnv -> Env [ctor metadata "530"] .
+  op mt     : -> Env [ctor metadata "540"] .
+  op mtVE   : -> VEnv [ctor metadata "550"] .
+  op mtTE   : -> TEnv [ctor metadata "560"] .
+  op {_}    : Env -> WrappedEnv [ctor metadata "570"] .
 endfm
 
 mod IMP-FVP-FRAGMENT is
@@ -205,10 +205,10 @@ mod IMP-FVP-FRAGMENT is
   subsort Stmt Exp !LExp !AExp !BExp !Stmt < Redex .
 
   --- RedContext
-  op <_|_>  : Continuation Env -> RedContext [ctor metadata "58"] .
+  op <_|_>  : Continuation Env -> RedContext [ctor metadata "580"] .
   --- Continuation
-  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "59"] .
-  op done   : -> Continuation [ctor metadata "60"] .
+  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "590"] .
+  op done   : -> Continuation [ctor metadata "600"] .
 endm
 
 
