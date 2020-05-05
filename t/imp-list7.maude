@@ -1,6 +1,0 @@
-load ../imp.maude
-
-rew in IMP-SEMANTICS : < if (! empty(last(y))) { x = last(y) ; } else { x = first(y) ; } ~> done
-                    | (x |-> TList * y |-> TList)
-                    & (x |-> nil * y |-> (1 + 1 + 1) $ 1 $ 1 $ (1 + 1)) > .
-quit .

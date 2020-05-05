@@ -30,7 +30,7 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (use tool conrew for validity          on REV+IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
-(def-term-set (< done | E:Env >) | true .)
+(def-term-set (< done | St:Store >) | true .)
 (declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) U (K:Continuation) .)
 
 (add-goal reverse : (<  while (! empty(x)) { y =l first(x) $: y ; x =l rest(x) ; } ~> K

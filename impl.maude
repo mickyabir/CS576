@@ -177,24 +177,24 @@ endfm
 
 fmod ENVIRONMENT is
   pr IMPL-DATA .
-  sort Env .
-  sort VEnv TEnv WrappedEnv .
+  sort Store .
+  sort VStore TStore WrappedStore .
   sort Type .
   --- Type
   op TNat   : -> Type [ctor metadata "62"] .
   op TList  : -> Type [ctor metadata "63"] .
 
-  --- Env
-  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "64"] .
-  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "65"] .
-  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "66"] .
-  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "67"] .
-  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "68"] .
-  op _&_    : TEnv VEnv -> Env [ctor metadata "69"] .
-  op mt     : -> Env [ctor metadata "70"] .
-  op mtVE   : -> VEnv [ctor metadata "71"] .
-  op mtTE   : -> TEnv [ctor metadata "72"] .
-  op {_}    : Env -> WrappedEnv [ctor metadata "73"] .
+  --- Store
+  op _*_    : TStore TStore -> TStore [ctor prec 51 assoc comm id: mtTE metadata "64"] .
+  op _*_    : VStore VStore -> VStore [ctor prec 51 assoc comm id: mtVE metadata "65"] .
+  op _|->_  : Id Nat  -> VStore [ctor prec 50 metadata "66"] .
+  op _|->_  : Id List -> VStore [ctor prec 50 metadata "67"] .
+  op _|->_  : Id Type -> TStore [ctor prec 50 metadata "68"] .
+  op _&_    : TStore VStore -> Store [ctor metadata "69"] .
+  op mt     : -> Store [ctor metadata "70"] .
+  op mtVE   : -> VStore [ctor metadata "71"] .
+  op mtTE   : -> TStore [ctor metadata "72"] .
+  op {_}    : Store -> WrappedStore [ctor metadata "73"] .
 endfm
 
 mod IMPL-FVP-FRAGMENT is
@@ -205,7 +205,7 @@ mod IMPL-FVP-FRAGMENT is
   subsort Stmt Exp !LExp !AExp !BExp !Stmt < Redex .
 
   --- RedContext
-  op <_|_>  : Continuation Env -> RedContext [ctor metadata "74"] .
+  op <_|_>  : Continuation Store -> RedContext [ctor metadata "74"] .
   --- Continuation
   op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "75"] .
   op done   : -> Continuation [ctor metadata "76"] .
@@ -218,9 +218,9 @@ mod IMPL-SEMANTICS is
   pr IMPL-SYNTAX+MUL .
 
   var K : Continuation .
-  var E : Env .
-  var TE : TEnv .
-  var VE : VEnv .
+  var E : Store .
+  var TE : TStore .
+  var VE : VStore .
   var TY : Type .
   var S S' : Stmt .
   var Q : Id .
@@ -377,7 +377,7 @@ mod NONSEQ-IMPL-SEMANTICS is
   pr IMPL-SEMANTICS .
 
   var AE AE' : AExp .
-  var E : Env .
+  var E : Store .
   var N : Nat .
   var K : Continuation .
 

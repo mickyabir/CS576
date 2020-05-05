@@ -1,6 +1,0 @@
-load ../imp.maude
-
-rew in IMP-SEMANTICS : < x = last(y) ; ~> done
-                    | (x |-> TList * y |-> TList)
-                    & (x |-> nil * y |-> 1 $ 1 $ (1 + 1)) > .
-quit .
