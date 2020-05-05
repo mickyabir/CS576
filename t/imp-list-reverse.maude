@@ -22,7 +22,7 @@ mod REV+IMP-SEMANTICS is
 endm
 
 set show advisories off .
-set print attribute on .
+---set print attribute on .
 
 load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
@@ -31,51 +31,14 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) U (K:Continuation) .)
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (K:Continuation) .)
 
 (add-goal reverse : (<  while (! empty(x)) { y =l first(x) $: y ; x =l rest(x) ; } ~> K
                     | (x |-> TList * y |-> TList * z |-> TList)
                     & (x |-> X * y |-> Y * z |-> Z) >) | (Z) = (rev(Y) $ X) =>
                  (< K
                     | (x |-> TList * y |-> TList * z |-> TList)
-                    & (x |-> X' * y |-> Y' * z |-> Z') >) | (Z) = (Z') /\ (Z') = (rev(Y') $ X') /\ (isEmpty(X')) = (true) .)
+                    & (x |-> X' * y |-> Y' * z |-> Z) >) | (Z) = (rev(Y') $ X') /\ (isEmpty(X')) = (true) .)
 
 
 (start-proof .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
----(auto .)
-------
-------quit .
