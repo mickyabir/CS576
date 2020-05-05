@@ -1,15 +1,15 @@
-load ../imp.maude
+load ../impl.maude
 
 set show advisories off .
 ---set print attribute on .
 
 load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
-(select IMP-SEMANTICS  .)
+(select IMPL-SEMANTICS  .)
 
-(use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool conrew for validity          on IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
-(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
 
 (def-term-set (< done | E:Env >) | true .)
 

@@ -46,7 +46,7 @@ fmod FVP-NAT-MULT is
 endfm
 
 
-fmod IMP-LIST is
+fmod IMPL-LIST is
   pr FVP-NAT .
   sort List .
   subsort Nat < List .
@@ -76,8 +76,8 @@ fmod IMP-LIST is
 endfm
 
 
-fmod IMP-DATA is
-  pr IMP-LIST .
+fmod IMPL-DATA is
+  pr IMPL-LIST .
   sort Id .
   op a  :    -> Id [ctor metadata "16"] .
   op b  :    -> Id [ctor metadata "17"] .
@@ -91,14 +91,14 @@ fmod IMP-DATA is
   op _, : Id -> Id [ctor metadata "25"] .
 endfm
 
-fmod IMP-DATA+MUL is
-  pr IMP-DATA .
+fmod IMPL-DATA+MUL is
+  pr IMPL-DATA .
   pr FVP-NAT-MULT .
 endfm
 
 
-fmod IMP-SYNTAX is
-  pr IMP-DATA .
+fmod IMPL-SYNTAX is
+  pr IMPL-DATA .
   sort LExp AExp BExp Exp Stmt Ids Value .
   subsort Id Nat < AExp .
   subsort Id List < LExp .
@@ -140,14 +140,14 @@ fmod IMP-SYNTAX is
   eq val?(V:Value)     = true  [variant] .
 endfm
 
-fmod IMP-SYNTAX+MUL is
-  pr IMP-SYNTAX .
-  pr IMP-DATA+MUL .
+fmod IMPL-SYNTAX+MUL is
+  pr IMPL-SYNTAX .
+  pr IMPL-DATA+MUL .
 endfm
 
 
-fmod IMP-HOLE-SYNTAX is
-  pr IMP-SYNTAX .
+fmod IMPL-HOLE-SYNTAX is
+  pr IMPL-SYNTAX .
   sort !AExp !BExp !LExp !Stmt .
   --- !AExp
   op []+:_  : AExp -> !AExp [ctor metadata "44"] .
@@ -176,7 +176,7 @@ endfm
 
 
 fmod ENVIRONMENT is
-  pr IMP-DATA .
+  pr IMPL-DATA .
   sort Env .
   sort VEnv TEnv WrappedEnv .
   sort Type .
@@ -197,8 +197,8 @@ fmod ENVIRONMENT is
   op {_}    : Env -> WrappedEnv [ctor metadata "73"] .
 endfm
 
-mod IMP-FVP-FRAGMENT is
-  pr IMP-HOLE-SYNTAX .
+mod IMPL-FVP-FRAGMENT is
+  pr IMPL-HOLE-SYNTAX .
   pr ENVIRONMENT .
 
   sort RedContext Continuation Redex .
@@ -212,10 +212,10 @@ mod IMP-FVP-FRAGMENT is
 endm
 
 
-mod IMP-SEMANTICS is
-  pr IMP-FVP-FRAGMENT .
-  pr IMP-SYNTAX .
-  pr IMP-SYNTAX+MUL .
+mod IMPL-SEMANTICS is
+  pr IMPL-FVP-FRAGMENT .
+  pr IMPL-SYNTAX .
+  pr IMPL-SYNTAX+MUL .
 
   var K : Continuation .
   var E : Env .
@@ -373,8 +373,8 @@ mod IMP-SEMANTICS is
   rl [list-empty] : < empty(L)     ~> K | E >        => < isEmpty(L)   ~> K | E > .
 endm
 
-mod NONSEQ-IMP-SEMANTICS is
-  pr IMP-SEMANTICS .
+mod NONSEQ-IMPL-SEMANTICS is
+  pr IMPL-SEMANTICS .
 
   var AE AE' : AExp .
   var E : Env .

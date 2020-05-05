@@ -1,7 +1,7 @@
-load ../imp.maude
+load ../impl.maude
 
 fmod REV is
-  pr IMP-LIST .
+  pr IMPL-LIST .
 
   op rev : List -> List [metadata "90"] .
 
@@ -11,14 +11,14 @@ fmod REV is
   eq rev(N $ L) = rev(L) $ N .
 endfm
 
-mod REV+IMP-SYNTAX+MUL is
+mod REV+IMPL-SYNTAX+MUL is
   pr REV .
-  pr IMP-SYNTAX+MUL .
+  pr IMPL-SYNTAX+MUL .
 endm
 
-mod REV+IMP-SEMANTICS is
+mod REV+IMPL-SEMANTICS is
   pr REV .
-  pr IMP-SEMANTICS .
+  pr IMPL-SEMANTICS .
 endm
 
 set show advisories off .
@@ -26,10 +26,10 @@ set show advisories off .
 
 load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
-(select REV+IMP-SEMANTICS  .)
-(use tool conrew for validity          on REV+IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(select REV+IMPL-SEMANTICS  .)
+(use tool conrew for validity          on REV+IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
-(use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+(use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
 (def-term-set (< done | E:Env >) | true .)
 (declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) U (K:Continuation) .)
 
