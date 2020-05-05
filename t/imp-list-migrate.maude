@@ -6,18 +6,21 @@ set show advisories off .
 load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
 (select IMP-SEMANTICS  .)
+
 (use tool conrew for validity          on IMP-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
 (use tool varunif for varunif          on FVP-NAT .)
 (use tool varsat  for unsatisfiability on IMP-SYNTAX .)
+
 (def-term-set (< done | E:Env >) | true .)
-(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (K:Continuation) .)
+
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) U (K:Continuation) .)
 
 (add-goal migrate : (<  while (! empty(x)) { y =l y $: first(x) ; x =l rest(x) ; } ~> K
                     | (x |-> TList * y |-> TList * z |-> TList)
                     & (x |-> X * y |-> Y * z |-> Z) >) | (Z) = (Y $ X)  =>
                  (< K
                     | (x |-> TList * y |-> TList * z |-> TList)
-                    & (x |-> X' * y |-> Y' * z |-> Z) >) | (Z) = (Y' $ X') .)
+                    & (x |-> X' * y |-> Y' * z |-> Z') >) | (Z) = (Y' $ X') .)
 
 
 (start-proof .)

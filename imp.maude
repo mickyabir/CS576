@@ -171,7 +171,7 @@ fmod IMP-HOLE-SYNTAX is
   op if ([]) _ else _ : Stmt Stmt -> !Stmt [ctor metadata "58"] .
   op while ([]) _     : Stmt      -> !Stmt [ctor metadata "59"] .
   op _=[];            : Id        -> !Stmt [ctor metadata "60"] .
-  op _=l[];           : Id        -> !Stmt [ctor metadata "500"] .
+  op _=l[];           : Id        -> !Stmt [ctor metadata "61"] .
 endfm
 
 
@@ -181,20 +181,20 @@ fmod ENVIRONMENT is
   sort VEnv TEnv WrappedEnv .
   sort Type .
   --- Type
-  op TNat   : -> Type [ctor metadata "460"] .
-  op TList  : -> Type [ctor metadata "470"] .
+  op TNat   : -> Type [ctor metadata "62"] .
+  op TList  : -> Type [ctor metadata "63"] .
 
   --- Env
-  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "480"] .
-  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "490"] .
-  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "501"] .
-  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "510"] .
-  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "520"] .
-  op _&_    : TEnv VEnv -> Env [ctor metadata "530"] .
-  op mt     : -> Env [ctor metadata "540"] .
-  op mtVE   : -> VEnv [ctor metadata "550"] .
-  op mtTE   : -> TEnv [ctor metadata "560"] .
-  op {_}    : Env -> WrappedEnv [ctor metadata "570"] .
+  op _*_    : TEnv TEnv -> TEnv [ctor prec 51 assoc comm id: mtTE metadata "64"] .
+  op _*_    : VEnv VEnv -> VEnv [ctor prec 51 assoc comm id: mtVE metadata "65"] .
+  op _|->_  : Id Nat  -> VEnv [ctor prec 50 metadata "66"] .
+  op _|->_  : Id List -> VEnv [ctor prec 50 metadata "67"] .
+  op _|->_  : Id Type -> TEnv [ctor prec 50 metadata "68"] .
+  op _&_    : TEnv VEnv -> Env [ctor metadata "69"] .
+  op mt     : -> Env [ctor metadata "70"] .
+  op mtVE   : -> VEnv [ctor metadata "71"] .
+  op mtTE   : -> TEnv [ctor metadata "72"] .
+  op {_}    : Env -> WrappedEnv [ctor metadata "73"] .
 endfm
 
 mod IMP-FVP-FRAGMENT is
@@ -205,10 +205,10 @@ mod IMP-FVP-FRAGMENT is
   subsort Stmt Exp !LExp !AExp !BExp !Stmt < Redex .
 
   --- RedContext
-  op <_|_>  : Continuation Env -> RedContext [ctor metadata "580"] .
+  op <_|_>  : Continuation Env -> RedContext [ctor metadata "74"] .
   --- Continuation
-  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "590"] .
-  op done   : -> Continuation [ctor metadata "600"] .
+  op _~>_   : Redex Continuation -> Continuation [ctor prec 43 metadata "75"] .
+  op done   : -> Continuation [ctor metadata "76"] .
 endm
 
 
