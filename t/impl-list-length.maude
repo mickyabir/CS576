@@ -1,0 +1,43 @@
+load ../impl.maude
+
+fmod LEN is
+  pr IMPL-LIST .
+
+  op len : List -> Nat [metadata "90"] .
+
+  var L : List . var N : Nat .
+
+  eq len(nil) = 0 .
+  eq len(N $ L) = 1 + len(L) .
+endfm
+
+mod LEN+IMPL-SYNTAX+MUL is
+  pr LEN .
+  pr IMPL-SYNTAX+MUL .
+endm
+
+mod LEN+IMPL-SEMANTICS is
+  pr LEN .
+  pr IMPL-SEMANTICS .
+endm
+
+set show advisories off .
+---set print attribute on .
+
+load ../ext/maude-private/contrib/tools/rltool/rltool.maude
+
+(select LEN+IMPL-SEMANTICS  .)
+(use tool conrew for validity          on LEN+IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
+(use tool varunif for varunif          on FVP-NAT .)
+(use tool varsat  for unsatisfiability on IMPL-SYNTAX .)
+(def-term-set (< done | St:Store >) | true .)
+(declare-vars (X:List) U (X':List) U (Y:List) U (Y':List) U (Z:List) U (Z':List) U (I:Nat) U (I':Nat) U (K:Continuation) .)
+
+(add-goal length : (<  while (i <: z) { y =l (1 $: 1) $: y ; x =l 1 $: x ; i = i +: 1 ; } ~> K
+                    | (x |-> TList * y |-> TList * z |-> TNat * i |-> TNat)
+                    & (x |-> X * y |-> Y * z |-> Z * i |-> I) >) | (len(Y)) = ((1 + 1) * len(X)) =>
+                 (< K
+                    | (x |-> TList * y |-> TList * z |-> TNat * i |-> TNat)
+                    & (x |-> X' * y |-> Y' * z |-> Z' * i |-> I') >) | (len(Y')) = ((1 + 1) * len(X')) .)
+
+(start-proof .)
