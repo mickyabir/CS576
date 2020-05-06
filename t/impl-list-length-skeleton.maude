@@ -1,4 +1,4 @@
-load ../impl.maude
+load impl.maude
 
 fmod LEN is
   pr IMPL-LIST .
@@ -24,7 +24,7 @@ endm
 set show advisories off .
 ---set print attribute on .
 
-load ../ext/maude-private/contrib/tools/rltool/rltool.maude
+load rltool.maude
 
 (select LEN+IMPL-SEMANTICS  .)
 (use tool conrew for validity          on LEN+IMPL-SYNTAX+MUL with FOFORMSIMPLIFY-IMP-IMPL .)
@@ -35,9 +35,9 @@ load ../ext/maude-private/contrib/tools/rltool/rltool.maude
 
 (add-goal length : (<  while (i <: j) { y =l (1 $: 1) $: y ; x =l 1 $: x ; i = i +: 1 ; } ~> K
                     | (x |-> TList * y |-> TList * z |-> TList * i |-> TNat * j |-> TNat)
-                    & (x |-> X * y |-> Y * z |-> Z * i |-> I * j |-> J) >) | (len(Y) + len(Z)) = ((1 + 1) * len(X)) =>
+                    & (x |-> X * y |-> Y * z |-> Z * i |-> I * j |-> J) >) | *** Precondition Constraint Here *** =>
                  (< K
                     | (x |-> TList * y |-> TList * z |-> TList * i |-> TNat * j |-> TNat)
-                    & (x |-> X' * y |-> Y' * z |-> Z' * i |-> I' * j |-> J') >) | (len(Y') + len(Z)) = ((1 + 1) * len(X')) .)
+                    & (x |-> X' * y |-> Y' * z |-> Z' * i |-> I' * j |-> J') >) | *** Postcondition Contraint Here *** .)
 
 (start-proof .)
